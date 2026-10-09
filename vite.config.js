@@ -12,9 +12,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: 'AktivitasKu - Catatan Kegiatan',
-        short_name: 'AktivitasKu',
-        description: 'Catatan log aktivitas harian personal offline',
+        name: 'Dailyy - Catatan Kegiatan',
+        short_name: 'Dailyy',
+        description: 'Catatan log aktivitas harian personal oleh Yodi',
         theme_color: '#4f46e5',
         background_color: '#0f172a',
         display: 'standalone',

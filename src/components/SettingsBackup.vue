@@ -121,7 +121,7 @@ const handleFileChange = (event) => {
         <li>Buka link aplikasi ini di browser <strong>Safari</strong> iPhone.</li>
         <li>Tekan tombol <strong>Share</strong> (ikon kotak dengan panah ke atas di bagian bawah Safari).</li>
         <li>Scroll ke bawah lalu pilih menu <strong>"Add to Home Screen"</strong> (*Tambahkan ke Layar Utama*).</li>
-        <li>Ikon <strong>AktivitasKu</strong> akan muncul di homescreen dan bisa dibuka tanpa internet!</li>
+        <li>Ikon <strong>Dailyy</strong> akan muncul di homescreen dan bisa dibuka tanpa internet!</li>
       </ol>
     </div>
 

@@ -86,7 +86,7 @@ const handleImportData = (jsonStr) => {
             <CalendarCheck2 class="w-4 h-4 text-white" />
           </div>
           <div>
-            <h1 class="text-sm font-bold text-white tracking-tight leading-tight">AktivitasKu</h1>
+            <h1 class="text-sm font-bold text-white tracking-tight leading-tight">Dailyy</h1>
             <p class="text-[10px] text-slate-400">Log Harian Personal</p>
           </div>
         </div>
