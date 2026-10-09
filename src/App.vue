@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useActivityLogs } from './composables/useActivityLogs'
+import { useGoogleDrive } from './composables/useGoogleDrive'
 import QuickLogInput from './components/QuickLogInput.vue'
 import ActivityTimeline from './components/ActivityTimeline.vue'
 import SummaryStats from './components/SummaryStats.vue'
@@ -20,6 +21,17 @@ const {
   exportBackup,
   importBackup
 } = useActivityLogs()
+
+const {
+  isConnected: gdriveConnected,
+  userProfile: gdriveUser,
+  formattedLastBackup: gdriveLastBackup,
+  isLoading: gdriveLoading,
+  connect: gdriveConnect,
+  disconnect: gdriveDisconnect,
+  backup: gdriveBackup,
+  restore: gdriveRestore
+} = useGoogleDrive()
 
 const activeTab = ref('timeline') // 'timeline' | 'stats' | 'settings'
 const isOnline = ref(navigator.onLine)
@@ -74,6 +86,45 @@ const handleImportData = (jsonStr) => {
     setNotification(`Gagal import: ${res.error}`, 'error')
   }
 }
+
+// Google Drive Handlers
+const handleGDriveConnect = async () => {
+  const res = await gdriveConnect()
+  if (res.success) {
+    setNotification('Akun Google berhasil terhubung!', 'success')
+  } else {
+    setNotification(`Gagal terhubung: ${res.error}`, 'error')
+  }
+}
+
+const handleGDriveDisconnect = () => {
+  gdriveDisconnect()
+  setNotification('Akun Google berhasil diputuskan.', 'info')
+}
+
+const handleGDriveBackup = async () => {
+  const res = await gdriveBackup(logs.value)
+  if (res.success) {
+    setNotification('Cadangan berhasil diunggah ke Google Drive!', 'success')
+  } else {
+    setNotification(`Gagal cadangkan: ${res.error}`, 'error')
+  }
+}
+
+const handleGDriveRestore = async () => {
+  const res = await gdriveRestore()
+  if (res.success) {
+    const importRes = importBackup(res.content)
+    if (importRes.success) {
+      setNotification(`Berhasil memulihkan ${importRes.count} catatan dari Google Drive!`, 'success')
+      activeTab.value = 'timeline'
+    } else {
+      setNotification(`Format backup tidak valid: ${importRes.error}`, 'error')
+    }
+  } else {
+    setNotification(`Gagal memulihkan: ${res.error}`, 'error')
+  }
+}
 </script>
 
 <template>
@@ -114,10 +165,8 @@ const handleImportData = (jsonStr) => {
             : 'bg-slate-900 border-slate-700 text-slate-200'
         ]"
       >
-        <component
-          :is="alertNotification.type === 'success' ? CheckCircle2 : AlertCircle"
-          class="w-4 h-4 shrink-0"
-        />
+        <CheckCircle2 v-if="alertNotification.type !== 'error'" class="w-4 h-4 shrink-0 text-emerald-400" />
+        <AlertCircle v-else class="w-4 h-4 shrink-0 text-rose-400" />
         <span class="flex-1">{{ alertNotification.message }}</span>
       </div>
     </div>
@@ -150,9 +199,17 @@ const handleImportData = (jsonStr) => {
         <SettingsBackup
           :total-logs-count="logs.length"
           :is-online="isOnline"
+          :gdrive-connected="gdriveConnected"
+          :gdrive-user="gdriveUser"
+          :gdrive-last-backup="gdriveLastBackup"
+          :gdrive-loading="gdriveLoading"
           @export-data="exportBackup"
           @import-data="handleImportData"
           @clear-data="handleClearData"
+          @gdrive-connect="handleGDriveConnect"
+          @gdrive-disconnect="handleGDriveDisconnect"
+          @gdrive-backup="handleGDriveBackup"
+          @gdrive-restore="handleGDriveRestore"
         />
       </section>
     </main>
