@@ -14,7 +14,8 @@ import {
   CloudDownload,
   Loader2,
   LogOut,
-  CheckCircle2
+  CheckCircle2,
+  RefreshCw
 } from '@lucide/vue'
 
 const props = defineProps({
@@ -75,6 +76,22 @@ const handleFileChange = (event) => {
   reader.readAsText(file)
   event.target.value = ''
 }
+
+const checkingUpdate = ref(false)
+const checkForUpdates = async () => {
+  checkingUpdate.value = true
+  if (window.__dailyyUpdateSW) {
+    try {
+      await window.__dailyyUpdateSW(true)
+    } catch (e) {
+      console.warn('Update error:', e)
+    }
+  }
+  setTimeout(() => {
+    checkingUpdate.value = false
+    window.location.reload()
+  }, 700)
+}
 </script>
 
 <template>
@@ -109,6 +126,19 @@ const handleFileChange = (event) => {
       <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
         <span class="text-slate-400">Penyimpanan Utama:</span>
         <span class="text-slate-300 font-medium">Lokal HP (Aman & Pribadi)</span>
+      </div>
+
+      <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
+        <span class="text-slate-400">Versi Aplikasi:</span>
+        <button
+          type="button"
+          @click="checkForUpdates"
+          :disabled="checkingUpdate"
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-indigo-300 hover:text-white border border-slate-700/60 active:scale-95 transition-all cursor-pointer"
+        >
+          <RefreshCw :class="['w-3 h-3', checkingUpdate ? 'animate-spin' : '']" />
+          <span>{{ checkingUpdate ? 'Memperbarui...' : 'Periksa Update' }}</span>
+        </button>
       </div>
     </div>
 
