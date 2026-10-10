@@ -77,10 +77,13 @@ const handleClearData = () => {
   setNotification('Semua catatan berhasil direset.', 'info')
 }
 
-const handleImportData = (jsonStr) => {
-  const res = importBackup(jsonStr)
+const handleImportData = (payload) => {
+  const jsonStr = typeof payload === 'string' ? payload : payload.jsonStr
+  const merge = typeof payload === 'object' ? !!payload.merge : false
+  const res = importBackup(jsonStr, { merge })
   if (res.success) {
-    setNotification(`Berhasil memulihkan ${res.count} catatan aktivitas!`, 'success')
+    const actionText = merge ? 'menggabungkan' : 'memulihkan'
+    setNotification(`Berhasil ${actionText} ${res.count} catatan aktivitas!`, 'success')
     activeTab.value = 'timeline'
   } else {
     setNotification(`Gagal import: ${res.error}`, 'error')
@@ -111,12 +114,14 @@ const handleGDriveBackup = async () => {
   }
 }
 
-const handleGDriveRestore = async () => {
+const handleGDriveRestore = async (options = {}) => {
+  const merge = !!options?.merge
   const res = await gdriveRestore()
   if (res.success) {
-    const importRes = importBackup(res.content)
+    const importRes = importBackup(res.content, { merge })
     if (importRes.success) {
-      setNotification(`Berhasil memulihkan ${importRes.count} catatan dari Google Drive!`, 'success')
+      const actionText = merge ? 'menggabungkan' : 'memulihkan'
+      setNotification(`Berhasil ${actionText} ${importRes.count} catatan dari Google Drive!`, 'success')
       activeTab.value = 'timeline'
     } else {
       setNotification(`Format backup tidak valid: ${importRes.error}`, 'error')

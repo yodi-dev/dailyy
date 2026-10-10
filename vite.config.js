@@ -15,6 +15,7 @@ export default defineConfig({
         name: 'Dailyy - Catatan Kegiatan',
         short_name: 'Dailyy',
         description: 'Catatan log aktivitas harian personal oleh Yodi',
+        lang: 'id',
         theme_color: '#4f46e5',
         background_color: '#0f172a',
         display: 'standalone',

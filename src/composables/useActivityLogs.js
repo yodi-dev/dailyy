@@ -1,6 +1,7 @@
 import { ref, computed, watch } from 'vue'
 
-const STORAGE_KEY = 'aktivitasku_logs_v1'
+const PRIMARY_STORAGE_KEY = 'dailyy_logs_v1'
+const LEGACY_STORAGE_KEY = 'aktivitasku_logs_v1'
 
 const DEFAULT_SUGGESTIONS = [
   'Nyuci baju',
@@ -10,13 +11,20 @@ const DEFAULT_SUGGESTIONS = [
   'Belajar koding'
 ]
 
+const parseSafeTimestamp = (val) => {
+  if (typeof val === 'number' && Number.isFinite(val)) return val
+  if (!val) return Date.now()
+  const parsed = new Date(val).getTime()
+  return Number.isFinite(parsed) ? parsed : Date.now()
+}
+
 export function useActivityLogs() {
   const logs = ref([])
 
-  // Load from LocalStorage
+  // Load from LocalStorage (with backward compatibility)
   const loadLogs = () => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY)
+      const stored = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY)
       if (stored) {
         logs.value = JSON.parse(stored)
       } else {
@@ -35,7 +43,7 @@ export function useActivityLogs() {
     logs,
     (newLogs) => {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(newLogs))
+        localStorage.setItem(PRIMARY_STORAGE_KEY, JSON.stringify(newLogs))
       } catch (e) {
         console.error('Failed to save logs to LocalStorage', e)
       }
@@ -51,7 +59,7 @@ export function useActivityLogs() {
     const newLog = {
       id: Date.now().toString(36) + Math.random().toString(36).substring(2, 7),
       title: trimmedTitle,
-      timestamp: customTimestamp ? new Date(customTimestamp).getTime() : Date.now(),
+      timestamp: parseSafeTimestamp(customTimestamp),
       note: note.trim()
     }
 
@@ -70,7 +78,7 @@ export function useActivityLogs() {
       ...logs.value[index],
       ...updates,
       title: updates.title ? updates.title.trim() : logs.value[index].title,
-      timestamp: updates.timestamp ? new Date(updates.timestamp).getTime() : logs.value[index].timestamp
+      timestamp: updates.timestamp ? parseSafeTimestamp(updates.timestamp) : logs.value[index].timestamp
     }
 
     logs.value.sort((a, b) => b.timestamp - a.timestamp)
@@ -85,7 +93,8 @@ export function useActivityLogs() {
   // Clear all logs
   const clearLogs = () => {
     logs.value = []
-    localStorage.removeItem(STORAGE_KEY)
+    localStorage.removeItem(PRIMARY_STORAGE_KEY)
+    localStorage.removeItem(LEGACY_STORAGE_KEY)
   }
 
   // Frequent / Shortcut suggestions (most used activities)
@@ -200,7 +209,7 @@ export function useActivityLogs() {
     const blob = new Blob([dataStr], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const now = new Date()
-    const fileName = `aktivitasku-backup-${now.toISOString().split('T')[0]}.json`
+    const fileName = `dailyy-backup-${now.toISOString().split('T')[0]}.json`
 
     const link = document.createElement('a')
     link.href = url
@@ -212,7 +221,7 @@ export function useActivityLogs() {
   }
 
   // Import Data from JSON
-  const importBackup = (jsonString) => {
+  const importBackup = (jsonString, { merge = false } = {}) => {
     try {
       const parsed = JSON.parse(jsonString)
       if (!Array.isArray(parsed)) {
@@ -225,12 +234,19 @@ export function useActivityLogs() {
       ).map((item) => ({
         id: item.id || (Date.now().toString(36) + Math.random().toString(36).substring(2, 7)),
         title: item.title.trim(),
-        timestamp: typeof item.timestamp === 'number' ? item.timestamp : new Date(item.timestamp || Date.now()).getTime(),
+        timestamp: parseSafeTimestamp(item.timestamp),
         note: item.note || ''
       }))
 
-      validLogs.sort((a, b) => b.timestamp - a.timestamp)
-      logs.value = validLogs
+      if (merge) {
+        const existingIds = new Set(logs.value.map((l) => l.id))
+        const newItems = validLogs.filter((l) => !existingIds.has(l.id))
+        logs.value = [...logs.value, ...newItems]
+      } else {
+        logs.value = validLogs
+      }
+
+      logs.value.sort((a, b) => b.timestamp - a.timestamp)
       return { success: true, count: validLogs.length }
     } catch (e) {
       return { success: false, error: e.message }

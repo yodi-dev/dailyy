@@ -107,14 +107,37 @@ export function useGoogleDrive() {
     statusMessage.value = 'Akun Google telah diputuskan.'
   }
 
+  // Authenticated fetch with automatic token refresh on 401
+  const fetchWithAuth = async (url, options = {}, isRetry = false) => {
+    let token = accessToken.value
+    if (!token) {
+      token = await requestToken()
+    }
+
+    const headers = new Headers(options.headers || {})
+    headers.set('Authorization', `Bearer ${token}`)
+
+    const res = await fetch(url, {
+      ...options,
+      headers
+    })
+
+    if (res.status === 401 && !isRetry) {
+      console.warn('Google Access Token kedaluwarsa (401), memperbarui token...')
+      accessToken.value = null
+      sessionStorage.removeItem('dailyy_gdrive_token')
+      await requestToken()
+      return fetchWithAuth(url, options, true)
+    }
+
+    return res
+  }
+
   // Find existing backup file on Drive
-  const findBackupFileId = async (token) => {
+  const findBackupFileId = async () => {
     const q = encodeURIComponent(`name='${BACKUP_FILENAME}' and trashed=false`)
-    const res = await fetch(
-      `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,modifiedTime)`,
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+    const res = await fetchWithAuth(
+      `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,modifiedTime)`
     )
     if (!res.ok) {
       throw new Error('Gagal memeriksa file di Google Drive.')
@@ -131,18 +154,16 @@ export function useGoogleDrive() {
     isLoading.value = true
     statusMessage.value = 'Mengunggah backup ke Google Drive...'
     try {
-      const token = await ensureToken()
-      const existingFileId = await findBackupFileId(token)
+      const existingFileId = await findBackupFileId()
       const content = JSON.stringify(logs, null, 2)
 
       if (existingFileId) {
         // Update existing file
-        const updateRes = await fetch(
+        const updateRes = await fetchWithAuth(
           `https://www.googleapis.com/upload/drive/v3/files/${existingFileId}?uploadType=media`,
           {
             method: 'PATCH',
             headers: {
-              Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json'
             },
             body: content
@@ -170,12 +191,11 @@ export function useGoogleDrive() {
           content +
           closeDelimiter
 
-        const createRes = await fetch(
+        const createRes = await fetchWithAuth(
           'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',
           {
             method: 'POST',
             headers: {
-              Authorization: `Bearer ${token}`,
               'Content-Type': `multipart/related; boundary=${boundary}`
             },
             body: multipartBody
@@ -202,18 +222,14 @@ export function useGoogleDrive() {
     isLoading.value = true
     statusMessage.value = 'Mengunduh backup dari Google Drive...'
     try {
-      const token = await ensureToken()
-      const fileId = await findBackupFileId(token)
+      const fileId = await findBackupFileId()
 
       if (!fileId) {
         throw new Error('Tidak ditemukan file backup Dailyy di Google Drive kamu.')
       }
 
-      const downloadRes = await fetch(
-        `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`,
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
+      const downloadRes = await fetchWithAuth(
+        `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`
       )
 
       if (!downloadRes.ok) {

@@ -156,6 +156,7 @@ const formatTime = (timestamp) => {
               class="w-full bg-slate-950 border border-indigo-500/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none"
               placeholder="Nama aktivitas..."
               @keyup.enter="saveEdit(log.id)"
+              @keyup.esc="cancelEdit"
             />
             <input
               v-model="editNote"
@@ -163,6 +164,7 @@ const formatTime = (timestamp) => {
               class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none"
               placeholder="Catatan tambahan..."
               @keyup.enter="saveEdit(log.id)"
+              @keyup.esc="cancelEdit"
             />
             <div class="flex items-center justify-end gap-2 pt-1">
               <button

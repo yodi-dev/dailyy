@@ -57,6 +57,7 @@ const emit = defineEmits([
 
 const fileInput = ref(null)
 const showClearConfirm = ref(false)
+const pendingRestore = ref(null) // { type: 'json' | 'gdrive', content: string | null }
 
 const triggerFileInput = () => {
   fileInput.value?.click()
@@ -70,11 +71,40 @@ const handleFileChange = (event) => {
   reader.onload = (e) => {
     const content = e.target?.result
     if (typeof content === 'string') {
-      emit('import-data', content)
+      if (props.totalLogsCount > 0) {
+        pendingRestore.value = { type: 'json', content }
+      } else {
+        emit('import-data', { jsonStr: content, merge: false })
+      }
     }
+  }
+  reader.onerror = () => {
+    console.error('Gagal membaca file backup')
   }
   reader.readAsText(file)
   event.target.value = ''
+}
+
+const handleGDriveRestoreClick = () => {
+  if (props.totalLogsCount > 0) {
+    pendingRestore.value = { type: 'gdrive', content: null }
+  } else {
+    emit('gdrive-restore', { merge: false })
+  }
+}
+
+const confirmRestore = (merge) => {
+  if (!pendingRestore.value) return
+  if (pendingRestore.value.type === 'json') {
+    emit('import-data', { jsonStr: pendingRestore.value.content, merge })
+  } else if (pendingRestore.value.type === 'gdrive') {
+    emit('gdrive-restore', { merge })
+  }
+  pendingRestore.value = null
+}
+
+const cancelRestore = () => {
+  pendingRestore.value = null
 }
 
 const checkingUpdate = ref(false)
@@ -232,7 +262,7 @@ const checkForUpdates = async () => {
 
           <button
             type="button"
-            @click="emit('gdrive-restore')"
+            @click="handleGDriveRestoreClick"
             :disabled="gdriveLoading || !isOnline"
             class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
           >
@@ -338,6 +368,54 @@ const checkForUpdates = async () => {
       <a href="/privacy.html" target="_blank" class="hover:text-indigo-400 underline transition-colors">Kebijakan Privasi</a>
       <span>&bull;</span>
       <a href="/terms.html" target="_blank" class="hover:text-indigo-400 underline transition-colors">Ketentuan Layanan</a>
+    </div>
+
+    <!-- Modal Konfirmasi Pemulihan Data Cadangan -->
+    <div
+      v-if="pendingRestore"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
+    >
+      <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+            <AlertTriangle class="w-4 h-4" />
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white">Konfirmasi Pemulihan Data</h3>
+            <p class="text-[11px] text-slate-400">Pilih metode pemulihan catatan</p>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Terdapat <strong class="text-indigo-300">{{ totalLogsCount }} catatan</strong> tersimpan di perangkat ini. Bagaimana Anda ingin memproses data cadangan ini?
+        </p>
+
+        <div class="space-y-2 pt-1">
+          <button
+            type="button"
+            @click="confirmRestore(true)"
+            class="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer"
+          >
+            <span>Gabungkan (Simpan Keduanya)</span>
+          </button>
+
+          <button
+            type="button"
+            @click="confirmRestore(false)"
+            class="w-full py-2.5 px-3 bg-slate-800 hover:bg-rose-950/40 text-rose-300 border border-rose-900/40 hover:border-rose-800 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+          >
+            <span>Timpa Semua (Ganti Catatan Lama)</span>
+          </button>
+
+          <button
+            type="button"
+            @click="cancelRestore"
+            class="w-full py-2 px-3 text-slate-400 hover:text-white rounded-xl text-xs font-medium text-center transition-all cursor-pointer"
+          >
+            Batal
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

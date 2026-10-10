@@ -83,6 +83,7 @@ const handleSubmit = () => {
           v-model="title"
           type="text"
           placeholder="Misal: Nyuci baju, Jogging, Baca buku..."
+          aria-label="Nama aktivitas atau kegiatan"
           class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm md:text-base pr-28 transition-all"
         />
         <button
