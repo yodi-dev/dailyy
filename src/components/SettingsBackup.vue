@@ -332,5 +332,12 @@ const checkForUpdates = async () => {
         </button>
       </div>
     </div>
+
+    <!-- Legal Links -->
+    <div class="pt-2 pb-2 text-center text-[11px] text-slate-400 space-x-3">
+      <a href="/privacy.html" target="_blank" class="hover:text-indigo-400 underline transition-colors">Kebijakan Privasi</a>
+      <span>&bull;</span>
+      <a href="/terms.html" target="_blank" class="hover:text-indigo-400 underline transition-colors">Ketentuan Layanan</a>
+    </div>
   </div>
 </template>

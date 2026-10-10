@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kebijakan Privasi - Dailyy</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    :root {
+      --bg: #030712;
+      --card-bg: #111827;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --primary: #6366f1;
+      --border: #1f2937;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      color: #ffffff;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      color: #ffffff;
+      font-size: 20px;
+      margin-top: 28px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    p, li {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .callout {
+      background: rgba(99, 102, 241, 0.1);
+      border-left: 4px solid var(--primary);
+      padding: 16px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .callout p {
+      color: var(--text);
+      margin: 0;
+    }
+    a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">Kebijakan Privasi</span>
+    <h1>Kebijakan Privasi Dailyy</h1>
+    <p>Terakhir diperbarui: 10 Oktober 2026</p>
+
+    <p>
+      Selamat datang di <strong>Dailyy</strong>. Privasi Anda adalah prioritas utama kami. Dailyy dirancang sebagai aplikasi pencatat aktivitas personal yang menganut prinsip <em>Local-First (Offline-First)</em>, di mana seluruh data Anda disimpan secara privat di perangkat Anda sendiri.
+    </p>
+
+    <h2>1. Informasi yang Kami Kumpulkan</h2>
+    <p>Dailyy tidak memiliki server basis data terpusat dan tidak mengumpulkan informasi pribadi untuk dijual atau dilacak:</p>
+    <ul>
+      <li><strong>Data Log Kegiatan:</strong> Catatan nama kegiatan, waktu, dan catatan tambahan Anda hanya tersimpan di memori lokal peramban (LocalStorage/IndexedDB) perangkat Anda.</li>
+      <li><strong>Data Akun Google:</strong> Jika Anda memilih untuk menggunakan fitur Cadangan Google Drive, aplikasi akan meminta izin OAuth2 untuk mengautentikasi akun Anda dan mengakses Google Drive pribadi Anda. Kami hanya mengakses foto profil, nama, dan alamat email Anda untuk ditampilkan pada antarmuka aplikasi di perangkat Anda.</li>
+    </ul>
+
+    <h2>2. Penggunaan Google User Data (Google Drive API)</h2>
+    <div class="callout">
+      <p>
+        <strong>Kepatuhan terhadap Google API Services User Data Policy:</strong><br>
+        Penggunaan dan transfer data yang diterima dari Google APIs oleh Dailyy ke aplikasi lain akan mematuhi <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, termasuk persyaratan <em>Limited Use</em> (Penggunaan Terbatas).
+      </p>
+    </div>
+    <p>Aplikasi kami hanya meminta izin <code>https://www.googleapis.com/auth/drive.file</code> yang memiliki karakteristik:</p>
+    <ul>
+      <li>Dailyy <strong>TIDAK</strong> membaca, mengedit, atau menghapus file lain di Google Drive Anda.</li>
+      <li>Dailyy <strong>HANYA</strong> membuat dan memperbarui 1 (satu) file cadangan bernama <code>dailyy-backup.json</code> yang dibuat oleh aplikasi ini sendiri.</li>
+      <li>Data cadangan Anda sepenuhnya milik Anda dan tersimpan di akun Google Drive pribadi Anda.</li>
+      <li>Data Google Anda tidak pernah dikirimkan ke server kami atau pihak ketiga mana pun.</li>
+    </ul>
+
+    <h2>3. Penyimpanan dan Keamanan Data</h2>
+    <p>
+      Seluruh proses enkripsi dan keamanan data selama proses cadangan ke Google Drive ditangani langsung oleh protokol standar HTTPS dan infrastruktur keamanan Google.
+    </p>
+
+    <h2>4. Menghapus Data atau Memutuskan Sambungan</h2>
+    <p>
+      Anda memiliki kendali penuh atas data Anda kapan saja:
+    </p>
+    <ul>
+      <li>Anda dapat memutuskan sambungan akun Google kapan saja melalui tombol "Putuskan Sambungan" di tab Pengaturan Dailyy.</li>
+      <li>Anda dapat menghapus seluruh catatan lokal dengan tombol "Reset Seluruh Catatan" di aplikasi.</li>
+      <li>Anda dapat menghapus file <code>dailyy-backup.json</code> langsung dari Google Drive Anda kapan saja.</li>
+    </ul>
+
+    <h2>5. Hubungi Pengembang</h2>
+    <p>
+      Jika Anda memiliki pertanyaan mengenai kebijakan privasi ini atau penggunaan aplikasi Dailyy, Anda dapat menghubungi kami melalui repositori proyek di <a href="https://github.com/yodi-dev/dailyy" target="_blank" rel="noopener noreferrer">GitHub yodi-dev/dailyy</a>.
+    </p>
+
+    <div class="footer">
+      &copy; 2026 Dailyy by Yodi. Hak cipta dilindungi.
+    </div>
+  </div>
+</body>
+</html>
+
