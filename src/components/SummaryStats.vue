@@ -28,9 +28,19 @@ const topActivity = computed(() => {
   return currentStats.value.breakdown[0]
 })
 
+const maxCount = computed(() => {
+  if (!topActivity.value || !topActivity.value.count) return 1
+  return topActivity.value.count
+})
+
 const getPercentage = (count) => {
   if (!currentStats.value.totalCount) return 0
   return Math.round((count / currentStats.value.totalCount) * 100)
+}
+
+const getBarWidthPercentage = (count) => {
+  if (!maxCount.value) return 0
+  return Math.round((count / maxCount.value) * 100)
 }
 </script>
 
@@ -152,7 +162,7 @@ const getPercentage = (count) => {
             <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800/60">
               <div
                 class="bg-gradient-to-r from-indigo-500 to-violet-500 h-2 rounded-full transition-all duration-500"
-                :style="{ width: `${getPercentage(item.count)}%` }"
+                :style="{ width: `${getBarWidthPercentage(item.count)}%` }"
               ></div>
             </div>
           </div>

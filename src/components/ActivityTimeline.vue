@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 import { Clock, Trash2, Edit2, Check, X, Calendar, Activity, AlertCircle } from '@lucide/vue'
 
 const props = defineProps({
@@ -15,12 +15,15 @@ const editingId = ref(null)
 const editTitle = ref('')
 const editNote = ref('')
 const confirmDeleteId = ref(null)
+const editTitleInputRef = ref(null)
 
-const startEdit = (log) => {
+const startEdit = async (log) => {
   editingId.value = log.id
   editTitle.value = log.title
   editNote.value = log.note || ''
   confirmDeleteId.value = null
+  await nextTick()
+  editTitleInputRef.value?.focus()
 }
 
 const cancelEdit = () => {
@@ -113,14 +116,14 @@ const formatTime = (timestamp) => {
                 <button
                   type="button"
                   @click="emit('delete-log', log.id); confirmDeleteId = null"
-                  class="px-2 py-1 bg-rose-600/90 text-white text-[11px] font-semibold rounded-lg hover:bg-rose-500 active:scale-95 transition-all cursor-pointer"
+                  class="px-2.5 py-1.5 bg-rose-600/90 text-white text-xs font-semibold rounded-lg hover:bg-rose-500 active:scale-95 transition-all cursor-pointer"
                 >
                   Hapus
                 </button>
                 <button
                   type="button"
                   @click="confirmDeleteId = null"
-                  class="p-1 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800 transition-all cursor-pointer"
+                  class="p-1.5 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800 transition-all cursor-pointer"
                 >
                   <X class="w-4 h-4" />
                 </button>
@@ -132,17 +135,17 @@ const formatTime = (timestamp) => {
                   type="button"
                   @click="startEdit(log)"
                   title="Edit Catatan"
-                  class="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800/70 rounded-lg transition-all cursor-pointer"
+                  class="p-2 sm:p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800/70 rounded-lg transition-all cursor-pointer"
                 >
-                  <Edit2 class="w-3.5 h-3.5" />
+                  <Edit2 class="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                 </button>
                 <button
                   type="button"
                   @click="confirmDeleteId = log.id"
                   title="Hapus Catatan"
-                  class="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition-all cursor-pointer"
+                  class="p-2 sm:p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/30 rounded-lg transition-all cursor-pointer"
                 >
-                  <Trash2 class="w-3.5 h-3.5" />
+                  <Trash2 class="w-4 h-4 sm:w-3.5 sm:h-3.5" />
                 </button>
               </template>
             </div>
@@ -151,9 +154,10 @@ const formatTime = (timestamp) => {
           <!-- Inline Edit Form -->
           <div v-else class="space-y-2 pt-1">
             <input
+              ref="editTitleInputRef"
               v-model="editTitle"
               type="text"
-              class="w-full bg-slate-950 border border-indigo-500/80 rounded-lg px-3 py-2 text-xs text-white focus:outline-none"
+              class="w-full bg-slate-950 border border-indigo-500/80 rounded-lg px-3 py-2 text-base sm:text-xs text-white focus:outline-none"
               placeholder="Nama aktivitas..."
               @keyup.enter="saveEdit(log.id)"
               @keyup.esc="cancelEdit"
@@ -161,7 +165,7 @@ const formatTime = (timestamp) => {
             <input
               v-model="editNote"
               type="text"
-              class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none"
+              class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-base sm:text-xs text-slate-300 focus:outline-none"
               placeholder="Catatan tambahan..."
               @keyup.enter="saveEdit(log.id)"
               @keyup.esc="cancelEdit"

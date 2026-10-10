@@ -84,12 +84,12 @@ const handleSubmit = () => {
           type="text"
           placeholder="Misal: Nyuci baju, Jogging, Baca buku..."
           aria-label="Nama aktivitas atau kegiatan"
-          class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm md:text-base pr-28 transition-all"
+          class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-base pr-24 sm:pr-28 transition-all"
         />
         <button
           type="submit"
           :disabled="!title.trim()"
-          class="absolute right-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
+          class="absolute right-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
         >
           <Plus class="w-4 h-4" />
           <span>Simpan</span>
@@ -102,13 +102,13 @@ const handleSubmit = () => {
         <input
           v-model="customDateTime"
           type="datetime-local"
-          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs md:text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-base sm:text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
         />
         <input
           v-model="note"
           type="text"
           placeholder="Catatan tambahan (opsional)..."
-          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-base sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
         />
       </div>
     </form>

@@ -12,6 +12,7 @@
 - ☁️ **Cadangan Google Drive Pribadi:** Sinkronisasi cadangan langsung ke Google Drive pribadi pengguna via Google Identity Services OAuth2 tanpa perantara server.
 - 💾 **Cadangan File di Perangkat:** Download file cadangan dan pulihkan kapan saja dengan dialog konfirmasi penggabungan (**Gabungkan** / **Timpa**) untuk mencegah kehilangan data.
 - 📴 **Offline-First PWA:** Berjalan lancar tanpa koneksi internet di iPhone (iOS Safari), Android (Chrome), maupun Desktop.
+- 📱 **Desain Ramah Jempol (Mobile Ergonomics):** Navigasi bawah satu tangan, pencegahan auto-zoom di iOS Safari, touch target nyaman, dan tema gelap imersif edge-to-edge.
 - 🔄 **Pembaruan Otomatis:** Deteksi versi baru secara otomatis dengan tombol periksa update manual.
 - 🛡️ **Privasi 100%:** Data tersimpan lokal di perangkat dan akun Google pribadi Anda. Dilengkapi halaman Kebijakan Privasi dan Ketentuan Layanan resmi.
 

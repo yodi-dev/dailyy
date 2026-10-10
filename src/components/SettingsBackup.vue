@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import {
   Download,
   Upload,
@@ -106,6 +106,20 @@ const confirmRestore = (merge) => {
 const cancelRestore = () => {
   pendingRestore.value = null
 }
+
+const handleKeydown = (e) => {
+  if (e.key === 'Escape' && pendingRestore.value) {
+    cancelRestore()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 
 const checkingUpdate = ref(false)
 const checkForUpdates = async () => {
@@ -370,6 +384,7 @@ const checkForUpdates = async () => {
     <!-- Modal Konfirmasi Pemulihan Data Cadangan -->
     <div
       v-if="pendingRestore"
+      @click.self="cancelRestore"
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
     >
       <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl">
