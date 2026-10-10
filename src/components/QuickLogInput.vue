@@ -71,7 +71,7 @@ const handleSubmit = () => {
         class="text-xs flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-700/60 text-slate-400 hover:text-indigo-400 hover:border-indigo-500/40 active:scale-95 transition-all"
       >
         <Clock class="w-3.5 h-3.5" />
-        <span>{{ showCustomTime ? 'Waktu Custom' : 'Waktu Sekarang' }}</span>
+        <span>{{ showCustomTime ? 'Atur Waktu' : 'Waktu Sekarang' }}</span>
         <component :is="showCustomTime ? ChevronUp : ChevronDown" class="w-3 h-3 ml-0.5" />
       </button>
     </div>
@@ -116,7 +116,7 @@ const handleSubmit = () => {
     <!-- Quick Chips / Frequent Suggestions -->
     <div v-if="frequentSuggestions && frequentSuggestions.length" class="mt-3 pt-3 border-t border-slate-800/80">
       <div class="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
-        <span>Klik cepat:</span>
+        <span>Pilihan cepat:</span>
       </div>
       <div class="flex flex-wrap gap-2">
         <button

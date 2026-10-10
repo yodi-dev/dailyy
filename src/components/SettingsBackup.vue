@@ -132,34 +132,23 @@ const checkForUpdates = async () => {
         <ShieldCheck class="w-5 h-5 text-indigo-400" />
         <span>Pengaturan & Cadangan Data</span>
       </h2>
-      <p class="text-xs text-slate-400">Kelola data offline dan sinkronisasi cadangan</p>
+      <p class="text-xs text-slate-400">Kelola data dan sinkronisasi cadangan</p>
     </div>
 
-    <!-- Status Jaringan & Storage Info Card -->
+    <!-- Ringkasan Catatan & Pembaruan Aplikasi -->
     <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
-      <div class="flex items-center justify-between">
-        <span class="text-xs font-semibold text-slate-300">Status Jaringan:</span>
-        <div
-          class="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-          :class="isOnline ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'"
-        >
-          <component :is="isOnline ? Wifi : WifiOff" class="w-3.5 h-3.5" />
-          <span>{{ isOnline ? 'Tersambung (Online)' : 'Mode Pesawat (Offline Siap)' }}</span>
-        </div>
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-slate-400">Total Catatan Tersimpan:</span>
+        <span class="font-mono font-bold text-white">{{ totalLogsCount }} kegiatan</span>
       </div>
 
       <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-        <span class="text-slate-400">Total Catatan di HP:</span>
-        <span class="font-mono font-bold text-white">{{ totalLogsCount }} log</span>
+        <span class="text-slate-400">Keamanan Data:</span>
+        <span class="text-slate-300 font-medium">Tersimpan aman di perangkat ini</span>
       </div>
 
       <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-        <span class="text-slate-400">Penyimpanan Utama:</span>
-        <span class="text-slate-300 font-medium">Lokal HP (Aman & Pribadi)</span>
-      </div>
-
-      <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-        <span class="text-slate-400">Versi Aplikasi:</span>
+        <span class="text-slate-400">Pembaruan Aplikasi:</span>
         <button
           type="button"
           @click="checkForUpdates"
@@ -167,7 +156,7 @@ const checkForUpdates = async () => {
           class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-indigo-300 hover:text-white border border-slate-700/60 active:scale-95 transition-all cursor-pointer"
         >
           <RefreshCw :class="['w-3 h-3', checkingUpdate ? 'animate-spin' : '']" />
-          <span>{{ checkingUpdate ? 'Memperbarui...' : 'Periksa Update' }}</span>
+          <span>{{ checkingUpdate ? 'Memperbarui...' : 'Periksa Versi Baru' }}</span>
         </button>
       </div>
     </div>
@@ -181,7 +170,7 @@ const checkForUpdates = async () => {
           </div>
           <div>
             <h3 class="text-xs font-bold text-white uppercase tracking-wider">Cadangan Google Drive</h3>
-            <p class="text-[11px] text-slate-400">Simpan ke akun Google pribadimu (Rp 0)</p>
+            <p class="text-[11px] text-slate-400">Tersimpan aman di Google Drive pribadi Anda</p>
           </div>
         </div>
       </div>
@@ -189,7 +178,7 @@ const checkForUpdates = async () => {
       <!-- State: Belum Terhubung -->
       <div v-if="!gdriveConnected" class="space-y-3 pt-1">
         <p class="text-xs text-slate-300 leading-relaxed">
-          Hubungkan akun Google kamu untuk mencadangkan data kegiatan secara aman ke Google Drive pribadimu tanpa server pihak ketiga.
+          Hubungkan akun Google kamu untuk mencadangkan catatan kegiatan secara aman ke Google Drive pribadi agar data tidak hilang saat berganti perangkat.
         </p>
 
         <button
@@ -273,9 +262,12 @@ const checkForUpdates = async () => {
       </div>
     </div>
 
-    <!-- Backup Manual (JSON File Fallback) -->
+    <!-- Cadangan File di Perangkat -->
     <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
-      <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Cadangan Manual (File JSON)</h3>
+      <div>
+        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Cadangan File di Perangkat</h3>
+        <p class="text-[11px] text-slate-400 mt-0.5">Simpan atau pulihkan file cadangan secara langsung di perangkat</p>
+      </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         <!-- Export Button -->
@@ -285,7 +277,7 @@ const checkForUpdates = async () => {
           class="w-full py-2.5 px-3 bg-slate-800/90 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border border-slate-700 active:scale-95 transition-all cursor-pointer"
         >
           <Download class="w-4 h-4 text-indigo-400" />
-          <span>Export JSON File</span>
+          <span>Download Cadangan</span>
         </button>
 
         <!-- Import Button -->
@@ -295,7 +287,7 @@ const checkForUpdates = async () => {
           class="w-full py-2.5 px-3 bg-slate-800/90 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border border-slate-700 active:scale-95 transition-all cursor-pointer"
         >
           <Upload class="w-4 h-4 text-indigo-400" />
-          <span>Import JSON File</span>
+          <span>Pulihkan dari File</span>
         </button>
 
         <input
@@ -308,17 +300,22 @@ const checkForUpdates = async () => {
       </div>
     </div>
 
-    <!-- Panduan Pasang di iPhone 8 -->
+    <!-- Panduan Pasang di Layar Utama (Home Screen) -->
     <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2.5">
       <div class="flex items-center gap-2 text-indigo-300 font-semibold text-xs">
         <Smartphone class="w-4 h-4" />
-        <span>Cara Pasang di iPhone 8 (iOS 16)</span>
+        <span>Cara Pasang ke Layar Utama (Home Screen)</span>
       </div>
-      <ol class="text-xs text-slate-300 space-y-1.5 list-decimal list-inside pl-1 leading-relaxed">
-        <li>Buka link aplikasi ini di browser <strong>Safari</strong> iPhone.</li>
-        <li>Tekan tombol <strong>Share</strong> (ikon kotak dengan panah ke atas di bagian bawah Safari).</li>
-        <li>Scroll ke bawah lalu pilih menu <strong>"Add to Home Screen"</strong> (*Tambahkan ke Layar Utama*).</li>
-        <li>Ikon <strong>Dailyy</strong> akan muncul di homescreen dan bisa dibuka tanpa internet!</li>
+      <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside pl-1 leading-relaxed">
+        <li>
+          <strong>iPhone / iPad (Safari):</strong> Tekan tombol <strong>Bagikan</strong> (ikon kotak dengan panah ke atas di bilah bawah), lalu pilih menu <strong>"Tambahkan ke Layar Utama"</strong> (*Add to Home Screen*).
+        </li>
+        <li>
+          <strong>Android (Chrome):</strong> Tekan tombol menu <strong>titik tiga (⋮)</strong> di kanan atas, lalu pilih <strong>"Instal aplikasi"</strong> atau <strong>"Tambahkan ke Layar Utama"</strong>.
+        </li>
+        <li>
+          Ikon <strong>Dailyy</strong> akan muncul di layar utama dan dapat dibuka instan layaknya aplikasi biasa tanpa perlu koneksi internet!
+        </li>
       </ol>
     </div>
 

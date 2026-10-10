@@ -143,7 +143,7 @@ const handleGDriveRestore = async (options = {}) => {
           </div>
           <div>
             <h1 class="text-sm font-bold text-white tracking-tight leading-tight">Dailyy</h1>
-            <p class="text-[10px] text-slate-400">Log Harian Personal</p>
+            <p class="text-[10px] text-slate-400">Catatan Aktivitas Harian</p>
           </div>
         </div>
 

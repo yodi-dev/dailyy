@@ -20,7 +20,7 @@ const currentStats = computed(() => {
 })
 
 const rangeLabel = computed(() => {
-  return activeRange.value === 'week' ? '7 Hari Terakhir (Seminggu)' : '30 Hari Terakhir (Sebulan)'
+  return activeRange.value === 'week' ? '7 Hari Terakhir' : '30 Hari Terakhir'
 })
 
 const topActivity = computed(() => {
@@ -101,7 +101,7 @@ const getPercentage = (count) => {
           </div>
           <div class="flex items-baseline gap-1 mt-2">
             <span class="text-3xl font-extrabold text-white">{{ currentStats.totalCount }}</span>
-            <span class="text-xs text-slate-400">kali</span>
+            <span class="text-xs text-slate-400">kegiatan</span>
           </div>
           <span class="text-[10px] text-slate-400 mt-2">{{ rangeLabel }}</span>
         </div>

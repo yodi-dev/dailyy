@@ -9,7 +9,7 @@
 | Versi | Tanggal | Penulis | Ringkasan Perubahan Utama |
 | :---: | :---: | :---: | :--- |
 | **v1.0** | Awal Projek | Yodi | Dokumen awal MVP (Personal Activity Log / AktivitasKu). Scope: Offline-first PWA, input log, timeline, ringkasan mingguan/bulanan, backup JSON lokal. (Cloud sync dinyatakan out-of-scope). |
-| **v1.1** | Oktober 2026 | Yodi & AI Assistant | **Revisi Sinkronisasi Status Aplikasi:**<br>1. Branding resmi menjadi **Dailyy**.<br>2. Peningkatan **Google Drive Backup & Restore (Zero-Cost Cloud Sync)** dari *Out of Scope* menjadi fitur utama.<br>3. Penambahan **Modal Konfirmasi Pemulihan Data (Merge vs Replace)** untuk mencegah kehilangan data.<br>4. Auto-refresh token Google OAuth (Error 401 recovery).<br>5. Integrasi halaman legalitas: **Privacy Policy** & **Terms of Service**.<br>6. PWA Auto-Update & tombol manual "Periksa Update".<br>7. Update Tech Stack ke Tailwind CSS v4 & Lucide Vue modern. |
+| **v1.1** | Oktober 2026 | Yodi & AI Assistant | **Revisi Sinkronisasi Status Aplikasi:**<br>1. Branding resmi menjadi **Dailyy**.<br>2. Peningkatan **Google Drive Backup & Restore (Zero-Cost Cloud Sync)** dari *Out of Scope* menjadi fitur utama.<br>3. Penambahan **Modal Konfirmasi Pemulihan Data (Merge vs Replace)** untuk mencegah kehilangan data.<br>4. Auto-refresh token Google OAuth (Error 401 recovery).<br>5. Integrasi halaman legalitas: **Privacy Policy** & **Terms of Service**.<br>6. PWA Auto-Update & tombol manual "Periksa Update".<br>7. Update Tech Stack ke Tailwind CSS v4 & Lucide Vue modern.<br>8. **Penyederhanaan UI/UX & Bahasa (Humanizing Copy):** Menghapus istilah teknis developer (*file JSON*, *log*, *waktu custom*) menjadi bahasa yang ramah (*Cadangan File*, *Catatan*, *Atur Waktu*), serta membuat panduan instalasi PWA universal untuk iOS & Android. |
 
 ---
 
@@ -47,13 +47,13 @@ Aplikasi ini mengedepankan prinsip:
 
 #### 4.1. Quick Log Entry (Pencatatan Cepat)
 - **Input Teks Utama:** Input nama kegiatan dengan placeholder intuitif dan atribut aksesibilitas (`aria-label`).
-- **Quick Pick Chips (Sugesti Otomatis):** Menampilkan hingga 6 kegiatan yang paling sering dilakukan pengguna + opsi kegiatan default (*Nyuci baju*, *Olahraga*, *Baca buku*, dll).
+- **Pilihan Cepat (Frequent Chips):** Menampilkan hingga 6 kegiatan yang paling sering dilakukan pengguna + opsi kegiatan default (*Nyuci baju*, *Olahraga*, *Baca buku*, dll).
 - **Pencatatan Waktu Real-Time:** Waktu kegiatan otomatis tercatat saat tombol simpan ditekan.
-- **Mode Waktu Kustom:** Toggle untuk memilih tanggal & jam lampau via input `datetime-local` serta catatan tambahan (*optional note*).
+- **Mode Pengaturan Waktu (Atur Waktu):** Opsi penyesuaian tanggal & jam lampau via input `datetime-local` serta catatan tambahan (*optional note*).
 - **Feedback Visual:** Banner notifikasi singkat saat catatan berhasil disimpan.
 
 #### 4.2. Activity Timeline (Riwayat Aktivitas)
-- **Pengelompokan Tanggal:** Log dikelompokkan per hari secara kronologis terbalik (*Hari Ini*, *Kemarin*, atau nama hari & tanggal lengkap).
+- **Pengelompokan Tanggal:** Catatan dikelompokkan per hari secara kronologis terbalik (*Hari Ini*, *Kemarin*, atau nama hari & tanggal lengkap).
 - **Badge Hitungan Harian:** Menampilkan total frekuensi kegiatan pada hari tersebut.
 - **Aksi Cepat per Item:**
   - **Inline Edit:** Mengubah judul dan catatan kegiatan langsung di kartu riwayat. Mendukung keyboard shortcut (`Enter` untuk simpan, `Esc` untuk batal).
@@ -62,23 +62,23 @@ Aplikasi ini mengedepankan prinsip:
 
 #### 4.3. Statistik & Ringkasan (Activity Insights)
 - **Filter Rentang Waktu Dinamis:**
-  - **Seminggu:** 7 hari terakhir (rolling 7 days).
-  - **Sebulan:** 30 hari terakhir (rolling 30 days).
+  - **7 Hari Terakhir:** Analisis kebiasaan seminggu (rolling 7 days).
+  - **30 Hari Terakhir:** Analisis kebiasaan sebulan (rolling 30 days).
 - **Kartu Ringkasan Utama:**
   - **Total Catatan:** Akumulasi jumlah kegiatan pada rentang terpilih.
   - **Paling Sering (Trophy):** Kegiatan nomor satu dengan frekuensi dan persentase kontribusinya.
 - **Daftar Frekuensi Kegiatan:** Rincian seluruh aktivitas terurut dari yang terbanyak, dilengkapi indikator ranking, jumlah hitungan (*times*), persentase, dan bilah progres (*progress bar* visual gradien).
 
-#### 4.4. Manajemen Cadangan Data Lokal (JSON)
-- **Export to JSON:** Mengunduh seluruh riwayat catatan lokal ke file terstruktur `dailyy-backup-YYYY-MM-DD.json`.
-- **Import from JSON:** Membaca file backup JSON dengan validasi skema array dan sanitasi waktu (`parseSafeTimestamp` anti-crash).
+#### 4.4. Cadangan File di Perangkat (Device File Backup)
+- **Download File Cadangan:** Mengunduh seluruh riwayat catatan lokal ke file terstruktur `dailyy-backup-YYYY-MM-DD.json`.
+- **Pulihkan dari File:** Membaca file backup dengan validasi skema array dan sanitasi waktu (`parseSafeTimestamp` anti-crash).
 - **Dialog Proteksi Pemulihan Data:** Jika perangkat sudah memiliki data catatan, sistem menampilkan dialog interaktif:
   - **Gabungkan (Merge):** Menyatukan data cadangan dengan data yang sudah ada tanpa menghapus data lokal.
   - **Timpa Semua (Replace):** Mengganti seluruh data lokal dengan data file cadangan.
   - **Batal:** Membatalkan aksi pemulihan.
-- **Zona Bahaya (Reset Data):** Opsi menghapus seluruh catatan lokal dengan konfirmasi ganda.
+- **Zona Bahaya (Hapus Semua Data):** Opsi menghapus seluruh catatan lokal dengan konfirmasi ganda.
 
-#### 4.5. Cadangan Cloud Pribadi (Google Drive Backup - Rp 0)
+#### 4.5. Cadangan Cloud Pribadi (Google Drive Backup)
 - **Arsitektur Zero-Cost Cloud:** Menggunakan Google Identity Services (GIS) OAuth2 client-side tanpa perantara server backend.
 - **Keamanan & Privasi Terbatas (*Limited Use*):** Meminta scope aman `https://www.googleapis.com/auth/drive.file` — Dailyy hanya dapat membaca dan memperbarui 1 file miliknya sendiri: `dailyy-backup.json`.
 - **Auto-Refresh Token (Error 401 Recovery):** Mekanisme pembaruan token otomatis saat access token Google kedaluwarsa setelah 1 jam.
@@ -87,9 +87,9 @@ Aplikasi ini mengedepankan prinsip:
 
 #### 4.6. PWA, Service Worker & Offline Capability
 - **Precache Lengkap:** Service Worker Workbox mem-precache seluruh aset statis (HTML, CSS, JS modul, ikon PWA).
-- **Auto-Update & Manual Check:** Deteksi versi baru secara otomatis serta tombol manual *"Periksa Update"* di tab Pengaturan.
-- **Status Jaringan Real-Time:** Banner pill di header yang memberi tahu pengguna saat berada dalam status *Online* maupun *Offline (Mode Pesawat)*.
-- **Panduan Instalasi iOS:** Langkah-langkah jelas di tab Pengaturan untuk memasang PWA di Safari iPhone 8.
+- **Auto-Update & Manual Check:** Deteksi versi baru secara otomatis serta tombol manual *"Periksa Versi Baru"* di tab Pengaturan.
+- **Status Jaringan Real-Time:** Banner pill di header yang memberi tahu pengguna saat berada dalam status *Online* maupun *Offline*.
+- **Panduan Instalasi Universal:** Panduan jelas di tab Pengaturan untuk memasang PWA di iOS (Safari) dan Android (Chrome).
 
 #### 4.7. Legalitas & Kepatuhan Kebijakan
 - **Kebijakan Privasi (`/privacy.html`):** Memenuhi standar *Google API Services User Data Policy* dan transparansi data lokal.
