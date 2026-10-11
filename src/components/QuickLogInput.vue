@@ -57,18 +57,18 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="bg-slate-900/90 backdrop-blur-md border border-slate-800 rounded-2xl p-4 shadow-xl mb-6 transition-all">
+  <div class="bg-app-card backdrop-blur-md border border-app-border rounded-2xl p-4 shadow-xl mb-6 transition-all">
     <div class="flex items-center justify-between mb-3">
       <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+        <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold">
           <Sparkles class="w-4 h-4" />
         </div>
-        <h2 class="text-base font-semibold text-white">Catat Kegiatan Baru</h2>
+        <h2 class="text-base font-semibold text-app-text">Catat Kegiatan Baru</h2>
       </div>
       <button
         type="button"
         @click="showCustomTime = !showCustomTime; if (showCustomTime && !customDateTime) customDateTime = getLocalDateTimeString()"
-        class="text-xs flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-700/60 text-slate-400 hover:text-indigo-400 hover:border-indigo-500/40 active:scale-95 transition-all"
+        class="text-xs flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-app-border-subtle text-app-muted hover:text-primary hover:border-primary-border active:scale-95 transition-all cursor-pointer"
       >
         <Clock class="w-3.5 h-3.5" />
         <span>{{ showCustomTime ? 'Atur Waktu' : 'Waktu Sekarang' }}</span>
@@ -84,12 +84,12 @@ const handleSubmit = () => {
           type="text"
           placeholder="Misal: Nyuci baju, Jogging, Baca buku..."
           aria-label="Nama aktivitas atau kegiatan"
-          class="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl px-4 py-3 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-base pr-24 sm:pr-28 transition-all"
+          class="w-full bg-app-surface border border-app-border-subtle rounded-xl px-4 py-3 text-app-text placeholder:text-app-muted/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-base pr-24 sm:pr-28 transition-all"
         />
         <button
           type="submit"
           :disabled="!title.trim()"
-          class="absolute right-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:hover:bg-indigo-600 text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
+          class="absolute right-1.5 px-3.5 py-2 bg-primary hover:bg-primary-hover disabled:opacity-40 disabled:hover:bg-primary text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 shadow-primary-glow active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
         >
           <Plus class="w-4 h-4" />
           <span>Simpan</span>
@@ -97,25 +97,25 @@ const handleSubmit = () => {
       </div>
 
       <!-- Optional Custom Date Time Picker -->
-      <div v-if="showCustomTime" class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 space-y-2">
-        <label class="block text-xs font-medium text-slate-400">Pilih Tanggal & Waktu Kegiatan:</label>
+      <div v-if="showCustomTime" class="p-3 bg-app-subtle/70 rounded-xl border border-app-border space-y-2">
+        <label class="block text-xs font-medium text-app-muted">Pilih Tanggal & Waktu Kegiatan:</label>
         <input
           v-model="customDateTime"
           type="datetime-local"
-          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-base sm:text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
+          class="w-full bg-app-surface border border-app-border-subtle rounded-lg px-3 py-2 text-base sm:text-sm text-app-text focus:outline-none focus:border-primary"
         />
         <input
           v-model="note"
           type="text"
           placeholder="Catatan tambahan (opsional)..."
-          class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-base sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+          class="w-full bg-app-surface border border-app-border-subtle rounded-lg px-3 py-2 text-base sm:text-sm text-app-text placeholder:text-app-muted/60 focus:outline-none focus:border-primary"
         />
       </div>
     </form>
 
     <!-- Quick Chips / Frequent Suggestions -->
-    <div v-if="frequentSuggestions && frequentSuggestions.length" class="mt-3 pt-3 border-t border-slate-800/80">
-      <div class="flex items-center gap-1.5 text-xs text-slate-400 mb-2">
+    <div v-if="frequentSuggestions && frequentSuggestions.length" class="mt-3 pt-3 border-t border-app-border-subtle">
+      <div class="flex items-center gap-1.5 text-xs text-app-muted mb-2">
         <span>Pilihan cepat:</span>
       </div>
       <div class="flex flex-wrap gap-2">
@@ -124,10 +124,10 @@ const handleSubmit = () => {
           :key="item"
           type="button"
           @click="handleQuickPick(item)"
-          class="text-xs bg-slate-800/70 hover:bg-slate-700/80 text-slate-300 hover:text-white px-3 py-1.5 rounded-full border border-slate-700/60 flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
+          class="text-xs bg-app-subtle hover:bg-app-surface text-app-text px-3 py-1.5 rounded-full border border-app-border-subtle flex items-center gap-1 active:scale-95 transition-all cursor-pointer"
         >
           <span>{{ item }}</span>
-          <Plus class="w-3 h-3 text-indigo-400" />
+          <Plus class="w-3 h-3 text-primary" />
         </button>
       </div>
     </div>
@@ -135,9 +135,9 @@ const handleSubmit = () => {
     <!-- Success Toast Notification -->
     <div
       v-if="showSuccessBanner"
-      class="mt-3 py-2 px-3 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-emerald-400 text-xs flex items-center gap-2 animate-fade-in"
+      class="mt-3 py-2 px-3 bg-emerald-500/15 border border-emerald-500/30 rounded-xl text-emerald-600 dark:text-emerald-400 text-xs flex items-center gap-2 animate-fade-in"
     >
-      <Check class="w-4 h-4 text-emerald-400 shrink-0" />
+      <Check class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
       <span>Berhasil mencatat <strong>"{{ lastAddedTitle }}"</strong>!</span>
     </div>
   </div>

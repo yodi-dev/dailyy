@@ -49,23 +49,23 @@ const getBarWidthPercentage = (count) => {
     <!-- Header & Range Switcher -->
     <div class="flex items-center justify-between">
       <div>
-        <h2 class="text-base font-bold text-white flex items-center gap-2">
-          <BarChart3 class="w-5 h-5 text-indigo-400" />
+        <h2 class="text-base font-bold text-app-text flex items-center gap-2">
+          <BarChart3 class="w-5 h-5 text-primary" />
           <span>Statistik & Ringkasan</span>
         </h2>
-        <p class="text-xs text-slate-400">Pantau rutinitas dan frekuensi kegiatanmu</p>
+        <p class="text-xs text-app-muted">Pantau rutinitas dan frekuensi kegiatanmu</p>
       </div>
 
       <!-- Range Pills -->
-      <div class="flex items-center bg-slate-900 border border-slate-800 p-1 rounded-xl">
+      <div class="flex items-center bg-app-card border border-app-border p-1 rounded-xl">
         <button
           type="button"
           @click="activeRange = 'week'"
           :class="[
             'text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer',
             activeRange === 'week'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'text-slate-400 hover:text-white'
+              ? 'bg-primary text-white shadow-primary-glow font-semibold'
+              : 'text-app-muted hover:text-app-text'
           ]"
         >
           Seminggu
@@ -76,8 +76,8 @@ const getBarWidthPercentage = (count) => {
           :class="[
             'text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer',
             activeRange === 'month'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'text-slate-400 hover:text-white'
+              ? 'bg-primary text-white shadow-primary-glow font-semibold'
+              : 'text-app-muted hover:text-app-text'
           ]"
         >
           Sebulan
@@ -88,13 +88,13 @@ const getBarWidthPercentage = (count) => {
     <!-- Empty State -->
     <div
       v-if="!currentStats.breakdown || currentStats.breakdown.length === 0"
-      class="text-center py-12 px-4 bg-slate-900/40 rounded-2xl border border-dashed border-slate-800"
+      class="text-center py-12 px-4 bg-app-card rounded-2xl border border-dashed border-app-border"
     >
-      <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-800/60 text-slate-400 flex items-center justify-center">
-        <Calendar class="w-6 h-6 text-slate-400" />
+      <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-app-subtle text-app-muted flex items-center justify-center">
+        <Calendar class="w-6 h-6 text-app-muted" />
       </div>
-      <h3 class="text-sm font-semibold text-slate-200 mb-1">Belum Ada Catatan di Rentang Ini</h3>
-      <p class="text-xs text-slate-400 max-w-xs mx-auto">
+      <h3 class="text-sm font-semibold text-app-text mb-1">Belum Ada Catatan di Rentang Ini</h3>
+      <p class="text-xs text-app-muted max-w-xs mx-auto">
         Catat kegiatan harianmu di tab Catat untuk melihat rekap dalam {{ rangeLabel }}.
       </p>
     </div>
@@ -104,38 +104,38 @@ const getBarWidthPercentage = (count) => {
       <!-- Highlight Card -->
       <div class="grid grid-cols-2 gap-3">
         <!-- Total Log Card -->
-        <div class="bg-gradient-to-br from-indigo-950/60 to-slate-900/90 border border-indigo-900/50 rounded-2xl p-4 flex flex-col justify-between">
-          <div class="flex items-center gap-1.5 text-xs text-indigo-300 font-medium mb-1">
+        <div class="bg-app-card border border-app-border rounded-2xl p-4 flex flex-col justify-between shadow-xs">
+          <div class="flex items-center gap-1.5 text-xs text-primary font-semibold mb-1">
             <TrendingUp class="w-3.5 h-3.5" />
             <span>Total Catatan</span>
           </div>
           <div class="flex items-baseline gap-1 mt-2">
-            <span class="text-3xl font-extrabold text-white">{{ currentStats.totalCount }}</span>
-            <span class="text-xs text-slate-400">kegiatan</span>
+            <span class="text-3xl font-extrabold text-app-text">{{ currentStats.totalCount }}</span>
+            <span class="text-xs text-app-muted">kegiatan</span>
           </div>
-          <span class="text-[10px] text-slate-400 mt-2">{{ rangeLabel }}</span>
+          <span class="text-[10px] text-app-muted mt-2">{{ rangeLabel }}</span>
         </div>
 
         <!-- Top Activity Card -->
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
-          <div class="flex items-center gap-1.5 text-xs text-amber-400 font-medium mb-1">
+        <div class="bg-app-card border border-app-border rounded-2xl p-4 flex flex-col justify-between shadow-xs">
+          <div class="flex items-center gap-1.5 text-xs text-amber-500 dark:text-amber-400 font-semibold mb-1">
             <Trophy class="w-3.5 h-3.5" />
             <span>Paling Sering</span>
           </div>
           <div v-if="topActivity" class="mt-2 min-w-0">
-            <h4 class="text-sm font-bold text-white truncate">{{ topActivity.title }}</h4>
+            <h4 class="text-sm font-bold text-app-text truncate">{{ topActivity.title }}</h4>
             <div class="flex items-baseline gap-1 mt-0.5">
-              <span class="text-2xl font-extrabold text-amber-300">{{ topActivity.count }}</span>
-              <span class="text-xs text-slate-400">kali ({{ getPercentage(topActivity.count) }}%)</span>
+              <span class="text-2xl font-extrabold text-amber-500 dark:text-amber-300">{{ topActivity.count }}</span>
+              <span class="text-xs text-app-muted">kali ({{ getPercentage(topActivity.count) }}%)</span>
             </div>
           </div>
-          <span class="text-[10px] text-slate-400 mt-2">Rutinitas utama</span>
+          <span class="text-[10px] text-app-muted mt-2">Rutinitas utama</span>
         </div>
       </div>
 
       <!-- Frequency Breakdown List -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 shadow-sm">
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">
+      <div class="bg-app-card border border-app-border rounded-2xl p-4 shadow-xs">
+        <h3 class="text-xs font-bold text-app-text uppercase tracking-wider mb-3">
           Frekuensi Kegiatan ({{ rangeLabel }})
         </h3>
 
@@ -147,21 +147,21 @@ const getBarWidthPercentage = (count) => {
           >
             <div class="flex items-center justify-between text-xs">
               <div class="flex items-center gap-2">
-                <span class="w-5 h-5 rounded-md bg-slate-800 text-slate-400 text-[11px] font-bold flex items-center justify-center">
+                <span class="w-5 h-5 rounded-md bg-app-subtle text-app-muted text-[11px] font-bold flex items-center justify-center border border-app-border-subtle">
                   {{ idx + 1 }}
                 </span>
-                <span class="font-semibold text-slate-100">{{ item.title }}</span>
+                <span class="font-semibold text-app-text">{{ item.title }}</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="font-mono font-bold text-indigo-400">{{ item.count }}x</span>
-                <span class="text-slate-500 text-[11px]">({{ getPercentage(item.count) }}%)</span>
+                <span class="font-mono font-bold text-primary">{{ item.count }}x</span>
+                <span class="text-app-muted text-[11px]">({{ getPercentage(item.count) }}%)</span>
               </div>
             </div>
 
             <!-- Progress Bar -->
-            <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800/60">
+            <div class="w-full bg-app-subtle rounded-full h-2 overflow-hidden border border-app-border-subtle">
               <div
-                class="bg-gradient-to-r from-indigo-500 to-violet-500 h-2 rounded-full transition-all duration-500"
+                class="bg-primary-gradient h-2 rounded-full transition-all duration-500"
                 :style="{ width: `${getBarWidthPercentage(item.count)}%` }"
               ></div>
             </div>

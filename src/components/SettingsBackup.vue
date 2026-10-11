@@ -15,8 +15,13 @@ import {
   Loader2,
   LogOut,
   CheckCircle2,
-  RefreshCw
+  RefreshCw,
+  Palette,
+  Check
 } from '@lucide/vue'
+import { useTheme } from '../composables/useTheme'
+
+const { themes, currentTheme, setTheme } = useTheme()
 
 const props = defineProps({
   totalLogsCount: {
@@ -142,32 +147,91 @@ const checkForUpdates = async () => {
   <div class="space-y-5">
     <!-- Header -->
     <div>
-      <h2 class="text-base font-bold text-white flex items-center gap-2">
-        <ShieldCheck class="w-5 h-5 text-indigo-400" />
+      <h2 class="text-base font-bold text-app-text flex items-center gap-2">
+        <ShieldCheck class="w-5 h-5 text-primary" />
         <span>Pengaturan & Cadangan Data</span>
       </h2>
-      <p class="text-xs text-slate-400">Kelola data dan sinkronisasi cadangan</p>
+      <p class="text-xs text-app-muted">Kelola tema tampilan, data, dan sinkronisasi cadangan</p>
+    </div>
+
+    <!-- Pilihan Tema & Tampilan -->
+    <div class="bg-app-card border border-app-border rounded-2xl p-4 space-y-3.5 shadow-sm">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-primary-soft text-primary flex items-center justify-center">
+            <Palette class="w-4 h-4" />
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-app-text uppercase tracking-wider">Tema & Warna Tampilan</h3>
+            <p class="text-[11px] text-app-muted">Pilih nuansa warna aplikasi yang kamu sukai</p>
+          </div>
+        </div>
+        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-app-subtle text-app-muted border border-app-border-subtle">
+          {{ themes.find(t => t.id === currentTheme)?.name }}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5 pt-1">
+        <button
+          v-for="t in themes"
+          :key="t.id"
+          type="button"
+          @click="setTheme(t.id)"
+          :class="[
+            'relative p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between h-20 active:scale-98',
+            currentTheme === t.id
+              ? 'border-primary ring-2 ring-primary/40 bg-app-surface shadow-sm'
+              : 'border-app-border-subtle hover:border-app-border bg-app-surface/60 hover:bg-app-surface'
+          ]"
+        >
+          <!-- Color Preview Bubbles & Active Check -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span
+                class="w-5 h-5 rounded-full shadow-inner border border-white/20 shrink-0"
+                :style="{ backgroundColor: t.swatch }"
+              ></span>
+              <span
+                class="w-4 h-4 rounded-full border border-black/10 shrink-0"
+                :style="{ backgroundColor: t.bgPreview }"
+              ></span>
+            </div>
+            <div
+              v-if="currentTheme === t.id"
+              class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center shadow-xs"
+            >
+              <Check class="w-3 h-3 stroke-[3]" />
+            </div>
+          </div>
+
+          <!-- Theme Name & Category Label -->
+          <div class="min-w-0">
+            <div class="text-xs font-bold text-app-text truncate leading-tight">{{ t.name }}</div>
+            <div class="text-[10px] text-app-muted truncate">{{ t.category }}</div>
+          </div>
+        </button>
+      </div>
     </div>
 
     <!-- Ringkasan Catatan & Pembaruan Aplikasi -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
+    <div class="bg-app-card border border-app-border rounded-2xl p-4 space-y-3">
       <div class="flex items-center justify-between text-xs">
-        <span class="text-slate-400">Total Catatan Tersimpan:</span>
-        <span class="font-mono font-bold text-white">{{ totalLogsCount }} kegiatan</span>
+        <span class="text-app-muted">Total Catatan Tersimpan:</span>
+        <span class="font-mono font-bold text-app-text">{{ totalLogsCount }} kegiatan</span>
       </div>
 
-      <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-        <span class="text-slate-400">Keamanan Data:</span>
-        <span class="text-slate-300 font-medium">Tersimpan aman di perangkat ini</span>
+      <div class="flex items-center justify-between pt-2 border-t border-app-border-subtle text-xs">
+        <span class="text-app-muted">Keamanan Data:</span>
+        <span class="text-app-text font-medium">Tersimpan aman di perangkat ini</span>
       </div>
 
-      <div class="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-        <span class="text-slate-400">Pembaruan Aplikasi:</span>
+      <div class="flex items-center justify-between pt-2 border-t border-app-border-subtle text-xs">
+        <span class="text-app-muted">Pembaruan Aplikasi:</span>
         <button
           type="button"
           @click="checkForUpdates"
           :disabled="checkingUpdate"
-          class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700/80 text-indigo-300 hover:text-white border border-slate-700/60 active:scale-95 transition-all cursor-pointer"
+          class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-app-subtle hover:bg-app-surface text-primary hover:text-primary-light border border-app-border-subtle active:scale-95 transition-all cursor-pointer"
         >
           <RefreshCw :class="['w-3 h-3', checkingUpdate ? 'animate-spin' : '']" />
           <span>{{ checkingUpdate ? 'Memperbarui...' : 'Periksa Versi Baru' }}</span>
@@ -176,22 +240,22 @@ const checkForUpdates = async () => {
     </div>
 
     <!-- Google Drive Backup Section (Card Unggulan) -->
-    <div class="bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-800/40 rounded-2xl p-4 space-y-3.5 shadow-lg">
+    <div class="bg-app-card border border-app-border rounded-2xl p-4 space-y-3.5 shadow-sm">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+          <div class="w-7 h-7 rounded-lg bg-primary-soft text-primary flex items-center justify-center">
             <Cloud class="w-4 h-4" />
           </div>
           <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider">Cadangan Google Drive</h3>
-            <p class="text-[11px] text-slate-400">Tersimpan aman di Google Drive pribadi Anda</p>
+            <h3 class="text-xs font-bold text-app-text uppercase tracking-wider">Cadangan Google Drive</h3>
+            <p class="text-[11px] text-app-muted">Tersimpan aman di Google Drive pribadi Anda</p>
           </div>
         </div>
       </div>
 
       <!-- State: Belum Terhubung -->
       <div v-if="!gdriveConnected" class="space-y-3 pt-1">
-        <p class="text-xs text-slate-300 leading-relaxed">
+        <p class="text-xs text-app-text leading-relaxed">
           Hubungkan akun Google kamu untuk mencadangkan catatan kegiatan secara aman ke Google Drive pribadi agar data tidak hilang saat berganti perangkat.
         </p>
 
@@ -199,7 +263,7 @@ const checkForUpdates = async () => {
           type="button"
           @click="emit('gdrive-connect')"
           :disabled="gdriveLoading || !isOnline"
-          class="w-full py-2.5 px-4 bg-white hover:bg-slate-100 disabled:opacity-50 text-slate-900 rounded-xl text-xs font-bold flex items-center justify-center gap-2.5 shadow-md active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
+          class="w-full py-2.5 px-4 bg-app-surface hover:bg-app-subtle border border-app-border disabled:opacity-50 text-app-text rounded-xl text-xs font-bold flex items-center justify-center gap-2.5 shadow-sm active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
         >
           <svg class="w-4 h-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -215,23 +279,23 @@ const checkForUpdates = async () => {
       <!-- State: Sudah Terhubung -->
       <div v-else class="space-y-3 pt-1">
         <!-- User Badge -->
-        <div class="flex items-center justify-between p-2.5 bg-slate-950/70 border border-slate-800 rounded-xl">
+        <div class="flex items-center justify-between p-2.5 bg-app-subtle border border-app-border-subtle rounded-xl">
           <div class="flex items-center gap-2.5 min-w-0">
             <img
               v-if="gdriveUser?.picture"
               :src="gdriveUser.picture"
               alt="Avatar"
-              class="w-7 h-7 rounded-full border border-slate-700 shrink-0"
+              class="w-7 h-7 rounded-full border border-app-border shrink-0"
             />
             <div
               v-else
-              class="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0"
+              class="w-7 h-7 rounded-full bg-primary text-white font-bold text-xs flex items-center justify-center shrink-0"
             >
               {{ gdriveUser?.name?.charAt(0) || 'U' }}
             </div>
             <div class="min-w-0">
-              <h4 class="text-xs font-bold text-white truncate">{{ gdriveUser?.name || 'Google User' }}</h4>
-              <p class="text-[10px] text-slate-400 truncate">{{ gdriveUser?.email }}</p>
+              <h4 class="text-xs font-bold text-app-text truncate">{{ gdriveUser?.name || 'Google User' }}</h4>
+              <p class="text-[10px] text-app-muted truncate">{{ gdriveUser?.email }}</p>
             </div>
           </div>
 
@@ -239,16 +303,16 @@ const checkForUpdates = async () => {
             type="button"
             @click="emit('gdrive-disconnect')"
             title="Putuskan Sambungan"
-            class="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-all cursor-pointer"
+            class="p-1.5 text-app-muted hover:text-rose-500 hover:bg-app-surface rounded-lg transition-all cursor-pointer"
           >
             <LogOut class="w-3.5 h-3.5" />
           </button>
         </div>
 
         <!-- Last Backup Info -->
-        <div class="text-[11px] text-slate-400 flex items-center justify-between px-1">
+        <div class="text-[11px] text-app-muted flex items-center justify-between px-1">
           <span>Terakhir dicadangkan:</span>
-          <span class="font-semibold text-slate-200">{{ gdriveLastBackup }}</span>
+          <span class="font-semibold text-app-text">{{ gdriveLastBackup }}</span>
         </div>
 
         <!-- Action Buttons -->
@@ -257,7 +321,7 @@ const checkForUpdates = async () => {
             type="button"
             @click="emit('gdrive-backup')"
             :disabled="gdriveLoading || !isOnline"
-            class="py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
+            class="py-2.5 px-3 bg-primary hover:bg-primary-hover disabled:opacity-50 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-primary-glow active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
           >
             <component :is="gdriveLoading ? Loader2 : CloudUpload" :class="['w-4 h-4', gdriveLoading ? 'animate-spin' : '']" />
             <span>Cadangkan</span>
@@ -267,9 +331,9 @@ const checkForUpdates = async () => {
             type="button"
             @click="handleGDriveRestoreClick"
             :disabled="gdriveLoading || !isOnline"
-            class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border border-slate-700 active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
+            class="py-2.5 px-3 bg-app-subtle hover:bg-app-surface disabled:opacity-50 text-app-text rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border border-app-border-subtle active:scale-95 transition-all cursor-pointer disabled:cursor-not-allowed"
           >
-            <CloudDownload class="w-4 h-4 text-indigo-400" />
+            <CloudDownload class="w-4 h-4 text-primary" />
             <span>Pulihkan</span>
           </button>
         </div>
@@ -277,10 +341,10 @@ const checkForUpdates = async () => {
     </div>
 
     <!-- Cadangan File di Perangkat -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-3">
+    <div class="bg-app-card border border-app-border rounded-2xl p-4 space-y-3">
       <div>
-        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Cadangan File di Perangkat</h3>
-        <p class="text-[11px] text-slate-400 mt-0.5">Simpan atau pulihkan file cadangan secara langsung di perangkat</p>
+        <h3 class="text-xs font-bold text-app-text uppercase tracking-wider">Cadangan File di Perangkat</h3>
+        <p class="text-[11px] text-app-muted mt-0.5">Simpan atau pulihkan file cadangan secara langsung di perangkat</p>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -288,9 +352,9 @@ const checkForUpdates = async () => {
         <button
           type="button"
           @click="emit('export-data')"
-          class="w-full py-2.5 px-3 bg-slate-800/90 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border border-slate-700 active:scale-95 transition-all cursor-pointer"
+          class="w-full py-2.5 px-3 bg-app-subtle hover:bg-app-surface text-app-text rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border border-app-border-subtle active:scale-95 transition-all cursor-pointer"
         >
-          <Download class="w-4 h-4 text-indigo-400" />
+          <Download class="w-4 h-4 text-primary" />
           <span>Download Cadangan</span>
         </button>
 
@@ -298,9 +362,9 @@ const checkForUpdates = async () => {
         <button
           type="button"
           @click="triggerFileInput"
-          class="w-full py-2.5 px-3 bg-slate-800/90 hover:bg-slate-700 text-slate-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border border-slate-700 active:scale-95 transition-all cursor-pointer"
+          class="w-full py-2.5 px-3 bg-app-subtle hover:bg-app-surface text-app-text rounded-xl text-xs font-semibold flex items-center justify-center gap-2 border border-app-border-subtle active:scale-95 transition-all cursor-pointer"
         >
-          <Upload class="w-4 h-4 text-indigo-400" />
+          <Upload class="w-4 h-4 text-primary" />
           <span>Pulihkan dari File</span>
         </button>
 
@@ -315,12 +379,12 @@ const checkForUpdates = async () => {
     </div>
 
     <!-- Panduan Pasang di Layar Utama (Home Screen) -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 space-y-2.5">
-      <div class="flex items-center gap-2 text-indigo-300 font-semibold text-xs">
+    <div class="bg-app-card border border-app-border rounded-2xl p-4 space-y-2.5">
+      <div class="flex items-center gap-2 text-primary font-semibold text-xs">
         <Smartphone class="w-4 h-4" />
         <span>Cara Pasang ke Layar Utama (Home Screen)</span>
       </div>
-      <ol class="text-xs text-slate-300 space-y-2 list-decimal list-inside pl-1 leading-relaxed">
+      <ol class="text-xs text-app-text space-y-2 list-decimal list-inside pl-1 leading-relaxed">
         <li>
           <strong>iPhone / iPad (Safari):</strong> Tekan tombol <strong>Bagikan</strong> (ikon kotak dengan panah ke atas di bilah bawah), lalu pilih menu <strong>"Tambahkan ke Layar Utama"</strong> (*Add to Home Screen*).
         </li>
@@ -334,15 +398,15 @@ const checkForUpdates = async () => {
     </div>
 
     <!-- Danger Zone: Reset Data -->
-    <div class="bg-rose-950/20 border border-rose-900/40 rounded-2xl p-4 space-y-2.5">
+    <div class="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-4 space-y-2.5">
       <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2 text-rose-400 text-xs font-bold">
+        <div class="flex items-center gap-2 text-rose-500 text-xs font-bold">
           <AlertTriangle class="w-4 h-4" />
           <span>Hapus Semua Data</span>
         </div>
       </div>
 
-      <p class="text-[11px] text-slate-400">
+      <p class="text-[11px] text-app-muted">
         Menghapus seluruh riwayat aktivitas yang tersimpan di perangkat ini. Tindakan ini tidak dapat dibatalkan.
       </p>
 
@@ -350,7 +414,7 @@ const checkForUpdates = async () => {
         <button
           type="button"
           @click="showClearConfirm = true"
-          class="px-3 py-1.5 bg-rose-900/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/50 rounded-lg text-xs font-semibold active:scale-95 transition-all cursor-pointer"
+          class="px-3 py-1.5 bg-rose-500/15 hover:bg-rose-500/25 text-rose-500 border border-rose-500/30 rounded-lg text-xs font-semibold active:scale-95 transition-all cursor-pointer"
         >
           Reset Seluruh Catatan
         </button>
@@ -367,7 +431,7 @@ const checkForUpdates = async () => {
         <button
           type="button"
           @click="showClearConfirm = false"
-          class="px-3 py-1.5 bg-slate-800 text-slate-300 rounded-lg text-xs hover:bg-slate-700 cursor-pointer"
+          class="px-3 py-1.5 bg-app-subtle text-app-text border border-app-border-subtle rounded-lg text-xs hover:bg-app-surface cursor-pointer"
         >
           Batal
         </button>
@@ -375,10 +439,10 @@ const checkForUpdates = async () => {
     </div>
 
     <!-- Legal Links -->
-    <div class="pt-2 pb-2 text-center text-[11px] text-slate-400 space-x-3">
-      <a href="/privacy.html" target="_blank" class="hover:text-indigo-400 underline transition-colors">Kebijakan Privasi</a>
+    <div class="pt-2 pb-2 text-center text-[11px] text-app-muted space-x-3">
+      <a href="/privacy.html" target="_blank" class="hover:text-primary underline transition-colors">Kebijakan Privasi</a>
       <span>&bull;</span>
-      <a href="/terms.html" target="_blank" class="hover:text-indigo-400 underline transition-colors">Ketentuan Layanan</a>
+      <a href="/terms.html" target="_blank" class="hover:text-primary underline transition-colors">Ketentuan Layanan</a>
     </div>
 
     <!-- Modal Konfirmasi Pemulihan Data Cadangan -->
@@ -387,26 +451,26 @@ const checkForUpdates = async () => {
       @click.self="cancelRestore"
       class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fade-in"
     >
-      <div class="bg-slate-900 border border-slate-700 rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl">
+      <div class="bg-app-surface border border-app-border rounded-2xl p-5 max-w-sm w-full space-y-4 shadow-2xl">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+          <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
             <AlertTriangle class="w-4 h-4" />
           </div>
           <div>
-            <h3 class="text-sm font-bold text-white">Konfirmasi Pemulihan Data</h3>
-            <p class="text-[11px] text-slate-400">Pilih metode pemulihan catatan</p>
+            <h3 class="text-sm font-bold text-app-text">Konfirmasi Pemulihan Data</h3>
+            <p class="text-[11px] text-app-muted">Pilih metode pemulihan catatan</p>
           </div>
         </div>
 
-        <p class="text-xs text-slate-300 leading-relaxed">
-          Terdapat <strong class="text-indigo-300">{{ totalLogsCount }} catatan</strong> tersimpan di perangkat ini. Bagaimana Anda ingin memproses data cadangan ini?
+        <p class="text-xs text-app-text leading-relaxed">
+          Terdapat <strong class="text-primary">{{ totalLogsCount }} catatan</strong> tersimpan di perangkat ini. Bagaimana Anda ingin memproses data cadangan ini?
         </p>
 
         <div class="space-y-2 pt-1">
           <button
             type="button"
             @click="confirmRestore(true)"
-            class="w-full py-2.5 px-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-indigo-600/30 active:scale-95 transition-all cursor-pointer"
+            class="w-full py-2.5 px-3 bg-primary hover:bg-primary-hover text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 shadow-primary-glow active:scale-95 transition-all cursor-pointer"
           >
             <span>Gabungkan (Simpan Keduanya)</span>
           </button>
@@ -414,7 +478,7 @@ const checkForUpdates = async () => {
           <button
             type="button"
             @click="confirmRestore(false)"
-            class="w-full py-2.5 px-3 bg-slate-800 hover:bg-rose-950/40 text-rose-300 border border-rose-900/40 hover:border-rose-800 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer"
+            class="w-full py-2.5 px-3 bg-app-subtle hover:bg-rose-500/20 text-rose-500 border border-rose-500/30 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer"
           >
             <span>Timpa Semua (Ganti Catatan Lama)</span>
           </button>
@@ -422,7 +486,7 @@ const checkForUpdates = async () => {
           <button
             type="button"
             @click="cancelRestore"
-            class="w-full py-2 px-3 text-slate-400 hover:text-white rounded-xl text-xs font-medium text-center transition-all cursor-pointer"
+            class="w-full py-2 px-3 text-app-muted hover:text-app-text rounded-xl text-xs font-medium text-center transition-all cursor-pointer"
           >
             Batal
           </button>

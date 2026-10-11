@@ -6,13 +6,14 @@
 ---
 
 ## ✨ Fitur Utama
+- 🎨 **Kustomisasi Tema & Tampilan:** 4 pilihan palet warna terkurasi (**Indigo Night** default gelap, **Biru Langit** mode terang cerah, **Blush Pink** estetik untuk kaum hawa, dan **Emerald Green** nuansa alam segar) dengan live preview instan, penyimpanan persisten, dan sinkronisasi status bar ponsel.
 - ⚡ **Pencatatan Cepat (Quick Logging):** Input kegiatan instan dengan tombol pilihan cepat (*frequent chips*), pencatatan waktu otomatis, dan opsi atur waktu lampau.
 - 📅 **Riwayat Terkelompok (Activity Timeline):** Tampilan riwayat kegiatan per hari (*Hari Ini*, *Kemarin*, dst), dilengkapi inline edit (`Enter`/`Esc`) dan konfirmasi hapus 2-langkah.
 - 📊 **Statistik & Rekap:** Visualisasi frekuensi kegiatan mingguan (7 hari) dan bulanan (30 hari) lengkap dengan kegiatan paling sering (*Trophy*) dan bilah progres.
 - ☁️ **Cadangan Google Drive Pribadi:** Sinkronisasi cadangan langsung ke Google Drive pribadi pengguna via Google Identity Services OAuth2 tanpa perantara server.
 - 💾 **Cadangan File di Perangkat:** Download file cadangan dan pulihkan kapan saja dengan dialog konfirmasi penggabungan (**Gabungkan** / **Timpa**) untuk mencegah kehilangan data.
 - 📴 **Offline-First PWA:** Berjalan lancar tanpa koneksi internet di iPhone (iOS Safari), Android (Chrome), maupun Desktop.
-- 📱 **Desain Ramah Jempol (Mobile Ergonomics):** Navigasi bawah satu tangan, pencegahan auto-zoom di iOS Safari, touch target nyaman, dan tema gelap imersif edge-to-edge.
+- 📱 **Desain Ramah Jempol (Mobile Ergonomics):** Navigasi bawah satu tangan, pencegahan auto-zoom di iOS Safari, touch target nyaman, dan tampilan tepi-ke-tepi yang adaptif.
 - 🔄 **Pembaruan Otomatis:** Deteksi versi baru secara otomatis dengan tombol periksa update manual.
 - 🛡️ **Privasi 100%:** Data tersimpan lokal di perangkat dan akun Google pribadi Anda. Dilengkapi halaman Kebijakan Privasi dan Ketentuan Layanan resmi.
 

@@ -133,22 +133,22 @@ const handleGDriveRestore = async (options = {}) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans pb-24 sm:pb-8 selection:bg-indigo-500 selection:text-white">
+  <div class="min-h-screen bg-app-bg text-app-text flex flex-col font-sans pb-24 sm:pb-8 selection:bg-primary selection:text-white transition-colors duration-200">
     <!-- Top Header -->
-    <header class="sticky top-0 z-30 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 px-4 py-3">
+    <header class="sticky top-0 z-30 bg-app-surface/90 backdrop-blur-md border-b border-app-border-subtle px-4 py-3 transition-colors duration-200">
       <div class="max-w-md mx-auto flex items-center justify-between">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-md shadow-indigo-600/30">
+          <div class="w-8 h-8 rounded-xl bg-primary-gradient flex items-center justify-center shadow-primary-glow">
             <CalendarCheck2 class="w-4 h-4 text-white" />
           </div>
           <div>
-            <h1 class="text-sm font-bold text-white tracking-tight leading-tight">Dailyy</h1>
-            <p class="text-[10px] text-slate-400">Catatan Aktivitas Harian</p>
+            <h1 class="text-sm font-bold text-app-text tracking-tight leading-tight">Dailyy</h1>
+            <p class="text-[10px] text-app-muted">Catatan Aktivitas Harian</p>
           </div>
         </div>
 
         <!-- Offline Status Pill -->
-        <div v-if="!isOnline" class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[10px] font-semibold">
+        <div v-if="!isOnline" class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-500 dark:text-amber-300 text-[10px] font-semibold">
           <WifiOff class="w-3 h-3" />
           <span>Offline</span>
         </div>
@@ -167,7 +167,7 @@ const handleGDriveRestore = async (options = {}) => {
             ? 'bg-emerald-950/90 border-emerald-800 text-emerald-200'
             : alertNotification.type === 'error'
             ? 'bg-rose-950/90 border-rose-800 text-rose-200'
-            : 'bg-slate-900 border-slate-700 text-slate-200'
+            : 'bg-app-card border-app-border text-app-text'
         ]"
       >
         <CheckCircle2 v-if="alertNotification.type !== 'error'" class="w-4 h-4 shrink-0 text-emerald-400" />
@@ -220,7 +220,7 @@ const handleGDriveRestore = async (options = {}) => {
     </main>
 
     <!-- Bottom Navigation Bar (Mobile Thumb-Zone Optimized for iOS) -->
-    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800/90 pb-[env(safe-area-inset-bottom,0px)]">
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-app-surface/95 backdrop-blur-lg border-t border-app-border-subtle pb-[env(safe-area-inset-bottom,0px)] transition-colors duration-200">
       <div class="max-w-md mx-auto px-4 py-2 flex items-center justify-around">
         <!-- Tab 1: Catat -->
         <button
@@ -229,8 +229,8 @@ const handleGDriveRestore = async (options = {}) => {
           :class="[
             'flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all cursor-pointer',
             activeTab === 'timeline'
-              ? 'text-indigo-400 font-bold scale-105'
-              : 'text-slate-400 hover:text-slate-200 font-medium'
+              ? 'text-primary font-bold scale-105'
+              : 'text-app-muted hover:text-app-text font-medium'
           ]"
         >
           <CalendarCheck2 class="w-5 h-5" />
@@ -244,8 +244,8 @@ const handleGDriveRestore = async (options = {}) => {
           :class="[
             'flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all cursor-pointer',
             activeTab === 'stats'
-              ? 'text-indigo-400 font-bold scale-105'
-              : 'text-slate-400 hover:text-slate-200 font-medium'
+              ? 'text-primary font-bold scale-105'
+              : 'text-app-muted hover:text-app-text font-medium'
           ]"
         >
           <BarChart2 class="w-5 h-5" />
@@ -259,8 +259,8 @@ const handleGDriveRestore = async (options = {}) => {
           :class="[
             'flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all cursor-pointer',
             activeTab === 'settings'
-              ? 'text-indigo-400 font-bold scale-105'
-              : 'text-slate-400 hover:text-slate-200 font-medium'
+              ? 'text-primary font-bold scale-105'
+              : 'text-app-muted hover:text-app-text font-medium'
           ]"
         >
           <Settings class="w-5 h-5" />

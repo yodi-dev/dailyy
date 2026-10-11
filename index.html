@@ -10,10 +10,28 @@
     <meta name="apple-mobile-web-app-title" content="Dailyy" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Dailyy - Catatan Kegiatan Harian</title>
+    <!-- Anti-FOUC Theme Script -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('dailyy_theme_v1') || 'indigo-dark';
+          document.documentElement.setAttribute('data-theme', saved);
+          if (saved === 'sky-light' || saved === 'blush-pink') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', saved === 'sky-light' ? '#f0f9ff' : '#fff1f2');
+          } else if (saved === 'emerald-nature') {
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#022c22');
+          }
+        } catch(e) {}
+      })();
+    </script>
     <!-- Google Identity Services for Google Drive Backup -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
-  <body class="bg-slate-950 text-slate-100 min-h-screen antialiased font-sans">
+  <body class="bg-app-bg text-app-text min-h-screen antialiased font-sans">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
