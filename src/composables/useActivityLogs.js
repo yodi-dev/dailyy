@@ -3,13 +3,6 @@ import { ref, computed, watch } from 'vue'
 const PRIMARY_STORAGE_KEY = 'dailyy_logs_v1'
 const LEGACY_STORAGE_KEY = 'aktivitasku_logs_v1'
 
-const DEFAULT_SUGGESTIONS = [
-  'Nyuci baju',
-  'Olahraga',
-  'Beres-beres kamar',
-  'Baca buku',
-  'Belajar koding'
-]
 
 const parseSafeTimestamp = (val) => {
   if (typeof val === 'number' && Number.isFinite(val)) return val
@@ -97,19 +90,20 @@ export function useActivityLogs() {
     localStorage.removeItem(LEGACY_STORAGE_KEY)
   }
 
-  // Frequent / Shortcut suggestions (most used activities)
+  // Frequent / Shortcut suggestions (only from user's logged activities, empty if no logs)
   const frequentSuggestions = computed(() => {
+    if (!logs.value || logs.value.length === 0) return []
+
     const countMap = {}
     logs.value.forEach((log) => {
-      const t = log.title
-      countMap[t] = (countMap[t] || 0) + 1
+      const t = log.title?.trim()
+      if (t) {
+        countMap[t] = (countMap[t] || 0) + 1
+      }
     })
 
     const sortedByCount = Object.keys(countMap).sort((a, b) => countMap[b] - countMap[a])
-    
-    // Combine top user activities with default suggestions, max 6 items
-    const combined = [...new Set([...sortedByCount, ...DEFAULT_SUGGESTIONS])]
-    return combined.slice(0, 6)
+    return sortedByCount.slice(0, 6)
   })
 
   // Format Helper for Date Labels

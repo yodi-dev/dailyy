@@ -50,9 +50,10 @@ Aplikasi ini mengedepankan prinsip:
 
 #### 4.1. Quick Log Entry (Pencatatan Cepat)
 - **Input Teks Utama:** Input nama kegiatan dengan placeholder intuitif dan atribut aksesibilitas (`aria-label`).
-- **Pilihan Cepat (Frequent Chips):** Menampilkan hingga 6 kegiatan yang paling sering dilakukan pengguna + opsi kegiatan default (*Nyuci baju*, *Olahraga*, *Baca buku*, dll).
-- **Pencatatan Waktu Real-Time:** Waktu kegiatan otomatis tercatat saat tombol simpan ditekan.
-- **Mode Pengaturan Waktu (Atur Waktu):** Opsi penyesuaian tanggal & jam lampau via input `datetime-local` serta catatan tambahan (*optional note*).
+- **Pilihan Cepat Otentik (Frequent Chips):** Menampilkan hingga 6 kegiatan yang paling sering dicatat oleh pengguna secara dinamis. Jika belum ada catatan yang tersimpan, area pilihan cepat disembunyikan sepenuhnya (bebas dari data dummy bawaan).
+- **Pencatatan Waktu Real-Time:** Secara default, waktu kegiatan otomatis tercatat saat tombol simpan ditekan.
+- **Opsi Detail (+ Detail):** Tombol ekspansi ringkas untuk membuka waktu khusus dan catatan tambahan (*optional note*) serta tombol praktis *"Gunakan Waktu Sekarang"*.
+- **Ergonomi Layar Kompak (iPhone 8):** Header kartu input dioptimalkan dengan `truncate` dan `whitespace-nowrap` agar judul dan tombol detail tidak bertabrakan atau patah baris pada layar 375px.
 - **Feedback Visual:** Banner notifikasi singkat saat catatan berhasil disimpan.
 
 #### 4.2. Activity Timeline (Riwayat Aktivitas)

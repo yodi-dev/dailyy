@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Plus, Clock, Sparkles, Check, ChevronDown, ChevronUp } from '@lucide/vue'
+import { Plus, Clock, Sparkles, Check, ChevronDown, ChevronUp, SlidersHorizontal } from '@lucide/vue'
 
 const props = defineProps({
   frequentSuggestions: {
@@ -57,22 +57,22 @@ const handleSubmit = () => {
 </script>
 
 <template>
-  <div class="bg-app-card backdrop-blur-md border border-app-border rounded-2xl p-4 shadow-xl mb-6 transition-all">
-    <div class="flex items-center justify-between mb-3">
-      <div class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold">
-          <Sparkles class="w-4 h-4" />
+  <div class="bg-app-card backdrop-blur-md border border-app-border rounded-2xl p-3.5 sm:p-4 shadow-xl mb-6 transition-all">
+    <div class="flex items-center justify-between gap-2 mb-3">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center font-bold shrink-0">
+          <Sparkles class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </div>
-        <h2 class="text-base font-semibold text-app-text">Catat Kegiatan Baru</h2>
+        <h2 class="text-sm sm:text-base font-bold text-app-text truncate">Catat Kegiatan Baru</h2>
       </div>
       <button
         type="button"
         @click="showCustomTime = !showCustomTime; if (showCustomTime && !customDateTime) customDateTime = getLocalDateTimeString()"
-        class="text-xs flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-app-border-subtle text-app-muted hover:text-primary hover:border-primary-border active:scale-95 transition-all cursor-pointer"
+        class="text-xs flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-app-border-subtle bg-app-subtle/40 text-app-muted hover:text-primary hover:border-primary-border active:scale-95 transition-all cursor-pointer shrink-0 whitespace-nowrap"
       >
-        <Clock class="w-3.5 h-3.5" />
-        <span>{{ showCustomTime ? 'Atur Waktu' : 'Waktu Sekarang' }}</span>
-        <component :is="showCustomTime ? ChevronUp : ChevronDown" class="w-3 h-3 ml-0.5" />
+        <SlidersHorizontal class="w-3.5 h-3.5" />
+        <span>{{ showCustomTime ? 'Tutup' : '+ Detail' }}</span>
+        <component :is="showCustomTime ? ChevronUp : ChevronDown" class="w-3 h-3" />
       </button>
     </div>
 
@@ -96,18 +96,30 @@ const handleSubmit = () => {
         </button>
       </div>
 
-      <!-- Optional Custom Date Time Picker -->
-      <div v-if="showCustomTime" class="p-3 bg-app-subtle/70 rounded-xl border border-app-border space-y-2">
-        <label class="block text-xs font-medium text-app-muted">Pilih Tanggal & Waktu Kegiatan:</label>
+      <!-- Optional Custom Date Time & Notes Details -->
+      <div v-if="showCustomTime" class="p-3 bg-app-subtle/70 rounded-xl border border-app-border space-y-2.5 animate-fade-in">
+        <div class="flex items-center justify-between text-xs text-app-muted">
+          <span class="font-medium">Waktu & Catatan Tambahan:</span>
+          <button
+            type="button"
+            @click="customDateTime = getLocalDateTimeString()"
+            class="text-[11px] text-primary hover:underline cursor-pointer"
+            title="Gunakan waktu sekarang"
+          >
+            Gunakan Waktu Sekarang
+          </button>
+        </div>
         <input
           v-model="customDateTime"
           type="datetime-local"
+          aria-label="Tanggal dan jam kegiatan"
           class="w-full bg-app-surface border border-app-border-subtle rounded-lg px-3 py-2 text-base sm:text-sm text-app-text focus:outline-none focus:border-primary"
         />
         <input
           v-model="note"
           type="text"
-          placeholder="Catatan tambahan (opsional)..."
+          placeholder="Catatan tambahan (misal: 30 menit, bab 1-3)..."
+          aria-label="Catatan tambahan kegiatan"
           class="w-full bg-app-surface border border-app-border-subtle rounded-lg px-3 py-2 text-base sm:text-sm text-app-text placeholder:text-app-muted/60 focus:outline-none focus:border-primary"
         />
       </div>
@@ -116,7 +128,7 @@ const handleSubmit = () => {
     <!-- Quick Chips / Frequent Suggestions -->
     <div v-if="frequentSuggestions && frequentSuggestions.length" class="mt-3 pt-3 border-t border-app-border-subtle">
       <div class="flex items-center gap-1.5 text-xs text-app-muted mb-2">
-        <span>Pilihan cepat:</span>
+        <span>Pilihan cepat (sering dicatat):</span>
       </div>
       <div class="flex flex-wrap gap-2">
         <button
