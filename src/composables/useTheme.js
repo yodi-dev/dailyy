@@ -14,21 +14,21 @@ export const THEMES = [
   },
   {
     id: 'sky-light',
-    name: 'Biru Langit',
-    category: 'Cerah & Segar',
-    type: 'light',
-    swatch: '#0284c7',
-    bgPreview: '#f0f9ff',
-    metaTheme: '#f0f9ff'
+    name: 'Biru Samudra',
+    category: 'Biru Berpendar',
+    type: 'dark',
+    swatch: '#0ea5e9',
+    bgPreview: '#031726',
+    metaTheme: '#031726'
   },
   {
     id: 'blush-pink',
     name: 'Blush Pink',
     category: 'Kaum Hawa',
-    type: 'light',
-    swatch: '#e11d48',
-    bgPreview: '#fff1f2',
-    metaTheme: '#fff1f2'
+    type: 'dark',
+    swatch: '#f43f5e',
+    bgPreview: '#1f0310',
+    metaTheme: '#1f0310'
   },
   {
     id: 'emerald-nature',
@@ -50,14 +50,9 @@ const applyThemeToDOM = (themeId) => {
   // Set data-theme attribute
   root.setAttribute('data-theme', selected.id)
 
-  // Toggle dark class for Tailwind
-  if (selected.type === 'dark') {
-    root.classList.add('dark')
-    root.classList.remove('light')
-  } else {
-    root.classList.remove('dark')
-    root.classList.add('light')
-  }
+  // Always dark class for all 4 dark glowing themes
+  root.classList.add('dark')
+  root.classList.remove('light')
 
   // Update browser status bar meta theme-color
   const metaTheme = document.querySelector('meta[name="theme-color"]')
@@ -65,10 +60,10 @@ const applyThemeToDOM = (themeId) => {
     metaTheme.setAttribute('content', selected.metaTheme)
   }
 
-  // Update iOS Safari standalone status bar text brightness (default = dark text, black-translucent = white text)
+  // Update iOS Safari standalone status bar text brightness (black-translucent = white text)
   const appleStatus = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
   if (appleStatus) {
-    appleStatus.setAttribute('content', selected.type === 'light' ? 'default' : 'black-translucent')
+    appleStatus.setAttribute('content', 'black-translucent')
   }
 }
 

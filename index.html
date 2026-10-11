@@ -16,19 +16,13 @@
         try {
           var saved = localStorage.getItem('dailyy_theme_v1') || 'indigo-dark';
           document.documentElement.setAttribute('data-theme', saved);
-          var isLight = (saved === 'sky-light' || saved === 'blush-pink');
-          if (isLight) {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-          } else {
-            document.documentElement.classList.add('dark');
-            document.documentElement.classList.remove('light');
-          }
+          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('light');
           var meta = document.querySelector('meta[name="theme-color"]');
           if (meta) {
             var colors = {
-              'sky-light': '#f0f9ff',
-              'blush-pink': '#fff1f2',
+              'sky-light': '#031726',
+              'blush-pink': '#1f0310',
               'emerald-nature': '#022c22',
               'indigo-dark': '#020617'
             };
@@ -36,7 +30,7 @@
           }
           var appleStatus = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]');
           if (appleStatus) {
-            appleStatus.setAttribute('content', isLight ? 'default' : 'black-translucent');
+            appleStatus.setAttribute('content', 'black-translucent');
           }
         } catch(e) {}
       })();

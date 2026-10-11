@@ -6,7 +6,7 @@
 ---
 
 ## ✨ Fitur Utama
-- 🎨 **Kustomisasi Tema & Tampilan:** 4 pilihan palet warna terkurasi (**Indigo Night** default gelap, **Biru Langit** mode terang cerah, **Blush Pink** estetik untuk kaum hawa, dan **Emerald Green** nuansa alam segar) dengan live preview instan, penyimpanan persisten, dan sinkronisasi status bar ponsel.
+- 🎨 **Kustomisasi Tema & Tampilan:** 4 pilihan tema gelap berpendar (*neon glow*) terkurasi (**Indigo Night** default midnight, **Biru Samudra** deep ocean dengan aksen cyan glow, **Blush Pink** deep berry estetik untuk kaum hawa, dan **Emerald Green** deep forest menenangkan) dengan live preview instan, penyimpanan persisten, dan status bar ponsel yang selalu jelas terlihat.
 - ⚡ **Pencatatan Cepat (Quick Logging):** Input kegiatan instan dengan tombol pilihan cepat (*frequent chips*), pencatatan waktu otomatis, dan opsi atur waktu lampau.
 - 📅 **Riwayat Terkelompok (Activity Timeline):** Tampilan riwayat kegiatan per hari (*Hari Ini*, *Kemarin*, dst), dilengkapi inline edit (`Enter`/`Esc`) dan konfirmasi hapus 2-langkah.
 - 📊 **Statistik & Rekap:** Visualisasi frekuensi kegiatan mingguan (7 hari) dan bulanan (30 hari) lengkap dengan kegiatan paling sering (*Trophy*) dan bilah progres.

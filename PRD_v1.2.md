@@ -73,11 +73,12 @@ Aplikasi ini mengedepankan prinsip:
 - **Daftar Frekuensi Kegiatan:** Rincian seluruh aktivitas terurut dari yang terbanyak, dilengkapi indikator ranking, jumlah hitungan (*times*), persentase, dan bilah progres (*progress bar* visual gradien).
 
 #### 4.4. Kustomisasi Tema & Tampilan (Theme Customization - v1.2)
-- **4 Pilihan Palet Warna Terkurasi:**
-  1. **Indigo Night (Gelap Bawaan):** Mode gelap klasik dengan aksen indigo & ungu modern.
-  2. **Biru Langit (Cerah & Segar):** Mode terang bersih bernuansa biru langit dan laut yang menyegarkan di siang hari.
-  3. **Blush Pink (Kaum Hawa):** Mode terang lembut dan estetik bernuansa mawar/pink yang dirancang khusus untuk kenyamanan pengguna wanita.
-  4. **Emerald Green (Hijau Alami):** Mode gelap menenangkan dengan aksen hijau zamrud yang sejuk di mata.
+- **4 Pilihan Palet Tema Gelap Berpendar (*Luminous Dark Themes*):**
+  1. **Indigo Night (Gelap Bawaan):** Mode gelap klasik modern dengan aksen indigo, border bertinting ungu, dan pendaran halus.
+  2. **Biru Samudra (Biru Berpendar):** Mode gelap samudra mendalam (*deep navy*) dengan aksen cyan/sky cerah dan border biru bersinar.
+  3. **Blush Pink (Kaum Hawa):** Mode gelap berry/velvet noir yang mewah dan estetik untuk pengguna wanita, dengan aksen rose neon menyala.
+  4. **Emerald Green (Hijau Alami):** Mode gelap hutan mendalam (*deep forest*) dengan aksen hijau zamrud yang sejuk dan pendaran alami di mata.
+- **Konsistensi Status Bar iPhone & Android:** Seluruh tema berbasis latar gelap sehingga status bar iOS Safari standalone (`black-translucent`) selalu menampilkan teks jam, baterai, dan sinyal berwarna putih kontras yang 100% jelas di segala kondisi.
 - **Live Preview & Indikator Aktif:** Kartu pilihan tema dilengkapi gelembung warna aksen & latar belakang, label kategori tema, serta centang status aktif.
 - **Penyimpanan Lokal Persisten:** Disimpan di `localStorage` (`dailyy_theme_v1`) dan diinisialisasi secara otomatis tanpa FOUC.
 - **Sinkronisasi Status Bar Perangkat:** Meta tag `theme-color` otomatis menyesuaikan warna tema aktif agar tampilan status bar iPhone/Android menyatu secara imersif.
