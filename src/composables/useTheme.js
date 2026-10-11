@@ -64,6 +64,12 @@ const applyThemeToDOM = (themeId) => {
   if (metaTheme) {
     metaTheme.setAttribute('content', selected.metaTheme)
   }
+
+  // Update iOS Safari standalone status bar text brightness (default = dark text, black-translucent = white text)
+  const appleStatus = document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
+  if (appleStatus) {
+    appleStatus.setAttribute('content', selected.type === 'light' ? 'default' : 'black-translucent')
+  }
 }
 
 // Inisialisasi tema dari LocalStorage saat modul termuat
@@ -101,3 +107,4 @@ export function useTheme() {
     setTheme
   }
 }
+

@@ -155,30 +155,30 @@ const checkForUpdates = async () => {
     </div>
 
     <!-- Pilihan Tema & Tampilan -->
-    <div class="bg-app-card border border-app-border rounded-2xl p-4 space-y-3.5 shadow-sm">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded-lg bg-primary-soft text-primary flex items-center justify-center">
+    <div class="bg-app-card border border-app-border rounded-2xl p-3.5 sm:p-4 space-y-3 shadow-sm">
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-7 h-7 rounded-lg bg-primary-soft text-primary flex items-center justify-center shrink-0">
             <Palette class="w-4 h-4" />
           </div>
-          <div>
-            <h3 class="text-xs font-bold text-app-text uppercase tracking-wider">Tema & Warna Tampilan</h3>
-            <p class="text-[11px] text-app-muted">Pilih nuansa warna aplikasi yang kamu sukai</p>
+          <div class="min-w-0">
+            <h3 class="text-xs font-bold text-app-text uppercase tracking-wider truncate">Tema & Warna</h3>
+            <p class="text-[11px] text-app-muted truncate">Pilih tampilan favoritmu</p>
           </div>
         </div>
-        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-app-subtle text-app-muted border border-app-border-subtle">
+        <span class="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-primary-soft text-primary border border-primary-border shrink-0 whitespace-nowrap">
           {{ themes.find(t => t.id === currentTheme)?.name }}
         </span>
       </div>
 
-      <div class="grid grid-cols-2 gap-2.5 pt-1">
+      <div class="grid grid-cols-2 gap-2 pt-0.5">
         <button
           v-for="t in themes"
           :key="t.id"
           type="button"
           @click="setTheme(t.id)"
           :class="[
-            'relative p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between h-20 active:scale-98',
+            'relative p-2.5 sm:p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[4.75rem] active:scale-98',
             currentTheme === t.id
               ? 'border-primary ring-2 ring-primary/40 bg-app-surface shadow-sm'
               : 'border-app-border-subtle hover:border-app-border bg-app-surface/60 hover:bg-app-surface'
@@ -186,7 +186,7 @@ const checkForUpdates = async () => {
         >
           <!-- Color Preview Bubbles & Active Check -->
           <div class="flex items-center justify-between">
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1.5 shrink-0">
               <span
                 class="w-5 h-5 rounded-full shadow-inner border border-white/20 shrink-0"
                 :style="{ backgroundColor: t.swatch }"
@@ -198,16 +198,16 @@ const checkForUpdates = async () => {
             </div>
             <div
               v-if="currentTheme === t.id"
-              class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center shadow-xs"
+              class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center shadow-xs shrink-0"
             >
               <Check class="w-3 h-3 stroke-[3]" />
             </div>
           </div>
 
           <!-- Theme Name & Category Label -->
-          <div class="min-w-0">
+          <div class="min-w-0 mt-1">
             <div class="text-xs font-bold text-app-text truncate leading-tight">{{ t.name }}</div>
-            <div class="text-[10px] text-app-muted truncate">{{ t.category }}</div>
+            <div class="text-[10px] text-app-muted truncate mt-0.5">{{ t.category }}</div>
           </div>
         </button>
       </div>
